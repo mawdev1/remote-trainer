@@ -16,3 +16,6 @@ export { settingsStorage } from './settings-storage'
 // Progression storage
 export { progressionStorage } from './progression-storage'
 
+// Reminder storage
+export { reminderStorage } from './reminder-storage'
+

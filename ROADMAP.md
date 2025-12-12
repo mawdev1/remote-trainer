@@ -42,7 +42,7 @@ Check off features as they're completed: `- [x]`
 ## 1. Smart Break Reminders
 
 ### 1.1 Basic Reminder System
-- [ ] **Customizable reminder intervals**
+- [x] **Customizable reminder intervals**
   
   **Description**: Allow users to set how often they want to be reminded to take a break and exercise. Options like every 30, 45, 60, or 90 minutes.
   
@@ -55,7 +55,7 @@ Check off features as they're completed: `- [x]`
   **UI Notes**: Settings panel with dropdown or slider for interval selection.
 
 ### 1.2 Active Time Tracking
-- [ ] **Track active browsing time**
+- [x] **Track active browsing time**
   
   **Description**: Monitor how long the user has been actively browsing (not idle) and trigger reminders based on activity rather than just clock time.
   
@@ -68,7 +68,7 @@ Check off features as they're completed: `- [x]`
   **UI Notes**: Show "Active for 45 min" indicator in popup header.
 
 ### 1.3 Smart Notification Content
-- [ ] **Contextual exercise suggestions in notifications**
+- [x] **Contextual exercise suggestions in notifications**
   
   **Description**: When a reminder fires, suggest a specific exercise based on what the user hasn't done recently or what fits their current streak.
   
@@ -80,7 +80,7 @@ Check off features as they're completed: `- [x]`
   **UI Notes**: "Time for a break! How about 15 squats? [Log] [Snooze]"
 
 ### 1.4 Movement Minutes Goal
-- [ ] **Daily movement minutes tracking**
+- [x] **Daily movement minutes tracking**
   
   **Description**: Track total "active minutes" per day (time spent exercising or on breaks) with a configurable daily goal.
   

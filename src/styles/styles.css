@@ -1904,3 +1904,258 @@ body.bg-waves.dark::after {
   min-height: 200px;
   color: var(--text-muted);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   HEADER - ACTIVE TIME INDICATOR
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.active-time-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.active-time-indicator.warning {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.active-time-indicator.urgent {
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.active-time-icon {
+  font-size: 0.9rem;
+}
+
+.active-time-value {
+  min-width: 50px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   SETTINGS - REMINDERS & TOGGLES
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.setting-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.setting-row:first-of-type {
+  padding-top: 0;
+}
+
+.setting-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.setting-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.setting-desc {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* Toggle Button */
+.toggle-btn {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  background: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  border-radius: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.toggle-btn.active {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  border-color: var(--accent-primary);
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-btn.active .toggle-slider {
+  transform: translateX(22px);
+}
+
+/* Select Input */
+.setting-select {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.setting-select:hover {
+  border-color: var(--accent-primary);
+}
+
+.setting-select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px var(--glow-primary);
+}
+
+.setting-select.small {
+  padding: 6px 10px;
+  font-size: 0.75rem;
+}
+
+/* Quiet Hours */
+.setting-row.quiet-hours {
+  flex-wrap: wrap;
+}
+
+.quiet-hours-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quiet-hours-separator {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   MOVEMENT MINUTES CARD
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+.stats-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.summary-card.movement-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.movement-progress-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.movement-ring {
+  width: 52px;
+  height: 52px;
+  transform: rotate(-90deg);
+  flex-shrink: 0;
+}
+
+.movement-ring-bg {
+  fill: none;
+  stroke: var(--bg-primary);
+  stroke-width: 3;
+}
+
+.movement-ring-progress {
+  fill: none;
+  stroke: url(#movement-gradient);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.5s ease;
+}
+
+.summary-card.movement-card .movement-ring-progress {
+  stroke: var(--accent-primary);
+}
+
+.summary-card.movement-card.goal-met .movement-ring-progress {
+  stroke: var(--success);
+}
+
+.movement-ring-text {
+  fill: var(--text-primary);
+  font-size: 0.5rem;
+  font-weight: 700;
+  text-anchor: middle;
+  transform: rotate(90deg);
+  transform-origin: center;
+}
+
+.movement-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.movement-goal {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.movement-complete {
+  font-size: 0.7rem;
+  color: var(--success);
+  font-weight: 600;
+}
+
+.summary-card.movement-card.goal-met {
+  border-color: rgba(34, 197, 94, 0.4);
+  background: rgba(34, 197, 94, 0.05);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   ADDITIONAL ANIMATIONS
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+@keyframes ring-fill {
+  from {
+    stroke-dasharray: 0, 100;
+  }
+}

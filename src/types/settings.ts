@@ -15,6 +15,10 @@ export const BACKGROUND_OPTIONS: { id: BackgroundStyle; name: string; descriptio
   { id: 'waves', name: 'Waves', description: 'Gentle flowing motion' },
 ]
 
+/** Available reminder interval options in minutes */
+export const REMINDER_INTERVAL_OPTIONS = [30, 45, 60, 90, 120] as const
+export type ReminderInterval = typeof REMINDER_INTERVAL_OPTIONS[number]
+
 /**
  * Reminder/notification settings
  */
@@ -22,13 +26,27 @@ export interface ReminderSettings {
   /** Whether break reminders are enabled */
   enabled: boolean
   /** Interval in minutes between reminders */
-  intervalMinutes: number
+  intervalMinutes: ReminderInterval
   /** Quiet hours start (24h format, e.g., 22 for 10pm) */
   quietHoursStart: number | null
   /** Quiet hours end (24h format, e.g., 7 for 7am) */
   quietHoursEnd: number | null
   /** Whether to play sound with notifications */
   soundEnabled: boolean
+  /** Whether to use active time tracking (idle-aware) instead of fixed intervals */
+  useActiveTimeTracking: boolean
+  /** Smart suggestions - suggest exercises based on history */
+  smartSuggestions: boolean
+}
+
+/**
+ * Movement minutes goal settings
+ */
+export interface MovementGoalSettings {
+  /** Whether movement minutes goal is enabled */
+  enabled: boolean
+  /** Daily goal in minutes */
+  dailyGoalMinutes: number
 }
 
 /**
@@ -73,6 +91,7 @@ export interface AppSettings {
   goals: GoalSettings
   display: DisplaySettings
   exercises: ExerciseSettings
+  movementGoal: MovementGoalSettings
 }
 
 /**
@@ -85,6 +104,8 @@ export const DEFAULT_SETTINGS: AppSettings = {
     quietHoursStart: null,
     quietHoursEnd: null,
     soundEnabled: true,
+    useActiveTimeTracking: true,
+    smartSuggestions: true,
   },
   goals: {
     daily: {},
@@ -99,6 +120,10 @@ export const DEFAULT_SETTINGS: AppSettings = {
   exercises: {
     enabledExercises: [],  // Empty means "use defaults from registry"
     customQuickOptions: {},
+  },
+  movementGoal: {
+    enabled: true,
+    dailyGoalMinutes: 30,
   },
 }
 
