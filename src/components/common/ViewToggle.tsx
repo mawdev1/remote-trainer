@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-export type ViewMode = 'dashboard' | 'history'
+export type ViewMode = 'dashboard' | 'history' | 'settings'
 
 interface ViewToggleProps {
   /** Current active view */
@@ -31,6 +31,14 @@ export const ViewToggle: React.FC<ViewToggleProps> = ({ view, onViewChange }) =>
       onClick={() => onViewChange('history')}
     >
       History
+    </button>
+    <button
+      role="tab"
+      aria-selected={view === 'settings'}
+      className={view === 'settings' ? 'active' : ''}
+      onClick={() => onViewChange('settings')}
+    >
+      ⚙️ Settings
     </button>
   </div>
 )

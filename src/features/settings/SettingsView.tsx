@@ -1,0 +1,175 @@
+/**
+ * SettingsView Component
+ * Settings page with reset options and app info
+ */
+
+import React, { useState } from 'react'
+import { useExerciseStore, useProgressionStore } from '@/stores'
+import { EXERCISE_REGISTRY } from '@/features/exercises'
+import { ACHIEVEMENTS } from '@/features/progression'
+
+type ConfirmAction = 'progress' | 'history' | 'all' | null
+
+export const SettingsView: React.FC = () => {
+  const [confirmAction, setConfirmAction] = useState<ConfirmAction>(null)
+  const [isResetting, setIsResetting] = useState(false)
+  const { clearHistory } = useExerciseStore()
+  const { resetProgression, data } = useProgressionStore()
+
+  const handleReset = async (action: ConfirmAction) => {
+    if (!action) return
+    
+    setIsResetting(true)
+    try {
+      switch (action) {
+        case 'progress':
+          await resetProgression()
+          break
+        case 'history':
+          await clearHistory()
+          break
+        case 'all':
+          await resetProgression()
+          await clearHistory()
+          break
+      }
+    } catch (error) {
+      console.error('Reset failed:', error)
+    } finally {
+      setIsResetting(false)
+      setConfirmAction(null)
+    }
+  }
+
+  const getConfirmMessage = (action: ConfirmAction) => {
+    switch (action) {
+      case 'progress':
+        return 'This will reset all XP, levels, unlocks, and achievements. Your exercise history will be kept.'
+      case 'history':
+        return 'This will delete all logged exercises. Your progression (XP, levels, unlocks) will be kept.'
+      case 'all':
+        return 'This will delete EVERYTHING and start fresh. All data will be permanently lost!'
+      default:
+        return ''
+    }
+  }
+
+  // Calculate stats
+  const unlockedCount = Object.values(data.exercises).filter(p => p.unlocked).length
+  const achievementCount = data.achievements.length
+
+  return (
+    <div className="settings-view">
+      {/* App Stats */}
+      <div className="settings-section">
+        <h3 className="settings-section-title">📊 Your Stats</h3>
+        <div className="settings-stats">
+          <div className="settings-stat">
+            <span className="settings-stat-value">{data.totalXp.toLocaleString()}</span>
+            <span className="settings-stat-label">Total XP</span>
+          </div>
+          <div className="settings-stat">
+            <span className="settings-stat-value">{unlockedCount}/{EXERCISE_REGISTRY.length}</span>
+            <span className="settings-stat-label">Exercises</span>
+          </div>
+          <div className="settings-stat">
+            <span className="settings-stat-value">{achievementCount}/{ACHIEVEMENTS.length}</span>
+            <span className="settings-stat-label">Achievements</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Danger Zone */}
+      <div className="settings-section danger-zone">
+        <h3 className="settings-section-title">⚠️ Danger Zone</h3>
+        
+        <div className="reset-option">
+          <div className="reset-option-info">
+            <h4>Reset Progression</h4>
+            <p>Reset all XP, levels, unlocked exercises, and achievements back to start.</p>
+          </div>
+          <button 
+            className="reset-btn warning"
+            onClick={() => setConfirmAction('progress')}
+            disabled={isResetting}
+          >
+            Reset Progress
+          </button>
+        </div>
+
+        <div className="reset-option">
+          <div className="reset-option-info">
+            <h4>Clear Exercise History</h4>
+            <p>Delete all logged exercises. Your progression will remain intact.</p>
+          </div>
+          <button 
+            className="reset-btn warning"
+            onClick={() => setConfirmAction('history')}
+            disabled={isResetting}
+          >
+            Clear History
+          </button>
+        </div>
+
+        <div className="reset-option">
+          <div className="reset-option-info">
+            <h4>Reset Everything</h4>
+            <p>Delete all data and start completely fresh. This cannot be undone!</p>
+          </div>
+          <button 
+            className="reset-btn danger"
+            onClick={() => setConfirmAction('all')}
+            disabled={isResetting}
+          >
+            Reset All Data
+          </button>
+        </div>
+      </div>
+
+      {/* About */}
+      <div className="settings-section">
+        <h3 className="settings-section-title">ℹ️ About</h3>
+        <div className="about-info">
+          <p><strong>Ext & Flex</strong> v1.0.0</p>
+          <p>Micro workouts for remote workers</p>
+          <p className="about-muted">All data stored locally in your browser</p>
+        </div>
+      </div>
+
+      {/* Confirmation Dialog */}
+      {confirmAction && (
+        <>
+          <div className="confirm-backdrop" onClick={() => setConfirmAction(null)} />
+          <div className="confirm-dialog">
+            <div className="confirm-icon">
+              {confirmAction === 'all' ? '🗑️' : '⚠️'}
+            </div>
+            <h3 className="confirm-title">
+              {confirmAction === 'all' ? 'Reset Everything?' : 'Are you sure?'}
+            </h3>
+            <p className="confirm-message">
+              {getConfirmMessage(confirmAction)}
+            </p>
+            <div className="confirm-actions">
+              <button 
+                className="confirm-btn cancel"
+                onClick={() => setConfirmAction(null)}
+                disabled={isResetting}
+              >
+                Cancel
+              </button>
+              <button 
+                className={`confirm-btn ${confirmAction === 'all' ? 'danger' : 'warning'}`}
+                onClick={() => handleReset(confirmAction)}
+                disabled={isResetting}
+              >
+                {isResetting ? 'Resetting...' : 'Yes, Reset'}
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+

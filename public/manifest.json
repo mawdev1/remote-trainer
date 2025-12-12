@@ -1,24 +1,25 @@
 {
   "manifest_version": 3,
-  "name": "Remote Trainer",
-  "description": "A personal fitness trainer for remote workers. Track pushups and arm curls right from your browser. All data stays local.",
+  "name": "Ext & Flex — Micro workouts for remote workers",
+  "short_name": "Ext & Flex",
+  "description": "Quick desk exercises to keep you moving. Track reps, build streaks, stay healthy — all data stays local.",
   "version": "1.0.0",
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icons/icon16.png",
-      "48": "icons/icon48.png",
-      "128": "icons/icon128.png"
+      "16": "icons/ext-and-flex-16.png",
+      "48": "icons/ext-and-flex-48.png",
+      "128": "icons/ext-and-flex-128.png"
     },
-    "default_title": "Remote Trainer - Track your workouts"
+    "default_title": "Ext & Flex"
   },
   "background": {
     "service_worker": "background.js"
   },
   "permissions": ["storage"],
   "icons": {
-    "16": "icons/icon16.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
+    "16": "icons/ext-and-flex-16.png",
+    "48": "icons/ext-and-flex-48.png",
+    "128": "icons/ext-and-flex-128.png"
   }
 }

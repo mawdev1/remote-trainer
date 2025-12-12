@@ -1,8 +1,8 @@
 <div align="center">
 
-# 💪 Remote Trainer
+# 💪 Ext & Flex
 
-### *Stay fit while you work from home*
+### *Micro workouts for remote workers*
 
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://developer.chrome.com/docs/extensions/)
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
@@ -75,8 +75,8 @@ Minimal footprint. Fast popup that doesn't slow down your browsing experience.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/remote-trainer-extension.git
-   cd remote-trainer-extension
+   git clone https://github.com/yourusername/ext-and-flex.git
+   cd ext-and-flex
    ```
 
 2. **Install dependencies**
@@ -172,7 +172,7 @@ src/
 
 ## 🎨 Design Philosophy
 
-Remote Trainer is built with these principles in mind:
+Ext & Flex is built with these principles in mind:
 
 - **🚀 Speed** — Popup loads instantly. No spinners, no waiting.
 - **🎯 Focus** — Do one thing well. Track exercises, nothing else.

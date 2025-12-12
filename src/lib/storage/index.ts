@@ -13,3 +13,6 @@ export { exerciseStorage } from './exercise-storage'
 // Settings storage
 export { settingsStorage } from './settings-storage'
 
+// Progression storage
+export { progressionStorage } from './progression-storage'
+

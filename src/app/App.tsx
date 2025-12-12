@@ -10,7 +10,7 @@ import React, { useState } from 'react'
 
 // Providers
 import { ThemeProvider } from '@/components/theme/ThemeProvider'
-import { ExerciseStoreProvider } from '@/stores'
+import { ExerciseStoreProvider, ProgressionStoreProvider } from '@/stores'
 
 // Common components
 import { Header, Footer, ViewToggle, ViewMode } from '@/components/common'
@@ -18,6 +18,7 @@ import { Header, Footer, ViewToggle, ViewMode } from '@/components/common'
 // Feature views
 import { DashboardView } from '@/features/dashboard'
 import { HistoryView } from '@/features/history'
+import { SettingsView } from '@/features/settings'
 
 /**
  * Root App component
@@ -26,9 +27,11 @@ import { HistoryView } from '@/features/history'
 const App: React.FC = () => {
   return (
     <ThemeProvider>
-      <ExerciseStoreProvider>
-        <TrainerApp />
-      </ExerciseStoreProvider>
+      <ProgressionStoreProvider>
+        <ExerciseStoreProvider>
+          <TrainerApp />
+        </ExerciseStoreProvider>
+      </ProgressionStoreProvider>
     </ThemeProvider>
   )
 }
@@ -40,17 +43,26 @@ const App: React.FC = () => {
 const TrainerApp: React.FC = () => {
   const [view, setView] = useState<ViewMode>('dashboard')
 
+  const renderView = () => {
+    switch (view) {
+      case 'dashboard':
+        return <DashboardView />
+      case 'history':
+        return <HistoryView />
+      case 'settings':
+        return <SettingsView />
+      default:
+        return <DashboardView />
+    }
+  }
+
   return (
     <div className="trainer-container">
       <Header />
       
       <ViewToggle view={view} onViewChange={setView} />
 
-      {view === 'dashboard' ? (
-        <DashboardView />
-      ) : (
-        <HistoryView />
-      )}
+      {renderView()}
 
       <Footer />
     </div>

@@ -11,11 +11,56 @@ import { generateId } from '@/lib/utils/ids'
 import { getDefaultEnabledIds, getExerciseById } from '@/features/exercises'
 import { localStorage } from './chrome-storage'
 
-// Storage keys
+// Storage keys (new extFlex prefix)
 const STORAGE_KEYS = {
+  EXERCISES: 'extFlex_exercises',
+  LAST_EXERCISE_TIME: 'extFlex_last_exercise',
+} as const
+
+// Legacy keys for migration
+const LEGACY_KEYS = {
   EXERCISES: 'trainer_exercises',
   LAST_EXERCISE_TIME: 'trainer_last_exercise',
 } as const
+
+// Migration flag key
+const MIGRATION_FLAG = 'extFlex_exercise_migration_done'
+
+/**
+ * Migrate data from old storage keys to new keys
+ * Runs once on first load after update
+ */
+async function migrateExerciseStorage(): Promise<void> {
+  // Check if migration already done
+  const migrationDone = await localStorage.get<boolean>(MIGRATION_FLAG)
+  if (migrationDone) return
+
+  // Migrate exercises
+  const oldExercises = await localStorage.get<ExerciseEntry[]>(LEGACY_KEYS.EXERCISES)
+  if (oldExercises && oldExercises.length > 0) {
+    const newExercises = await localStorage.get<ExerciseEntry[]>(STORAGE_KEYS.EXERCISES)
+    if (!newExercises || newExercises.length === 0) {
+      await localStorage.set(STORAGE_KEYS.EXERCISES, oldExercises)
+      console.log('Ext & Flex: Migrated exercise data to new storage keys')
+    }
+  }
+
+  // Migrate last exercise time
+  const oldLastTime = await localStorage.get<number>(LEGACY_KEYS.LAST_EXERCISE_TIME)
+  if (oldLastTime) {
+    const newLastTime = await localStorage.get<number>(STORAGE_KEYS.LAST_EXERCISE_TIME)
+    if (!newLastTime) {
+      await localStorage.set(STORAGE_KEYS.LAST_EXERCISE_TIME, oldLastTime)
+    }
+  }
+
+  // Mark migration as complete
+  await localStorage.set(MIGRATION_FLAG, true)
+  console.log('Ext & Flex: Exercise storage migration complete')
+}
+
+// Run migration on module load
+migrateExerciseStorage().catch(console.error)
 
 /**
  * Exercise Storage API

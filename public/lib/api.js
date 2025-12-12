@@ -1,3 +1,3 @@
 // API module - currently unused
-// Remote Trainer stores all data locally and doesn't require external APIs
+// Ext & Flex stores all data locally and doesn't require external APIs
 export default {}

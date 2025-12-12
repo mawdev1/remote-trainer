@@ -1,4 +1,4 @@
-# 🗺️ Remote Trainer — Feature Roadmap
+# 🗺️ Ext & Flex — Feature Roadmap
 
 > A comprehensive list of features to build the ultimate home workout Chrome extension for remote workers.
 > All data stays local. No authentication required.
@@ -97,132 +97,132 @@ Check off features as they're completed: `- [x]`
 ## 2. Expanded Exercise Library
 
 ### 2.1 Upper Body Exercises
-- [ ] **Add Tricep Dips**
+- [x] **Add Tricep Dips**
   
   **Description**: Bodyweight tricep dips using a chair or desk.
   
   **Requirements**: Same logging system as push-ups. Icon: 💺 or similar. Color: Orange gradient.
 
-- [ ] **Add Shoulder Shrugs**
+- [x] **Add Shoulder Shrugs**
   
   **Description**: Simple shoulder shrug exercise for tension relief.
   
   **Requirements**: Rep-based tracking. Icon: 🤷. Color: Purple gradient.
 
-- [ ] **Add Desk Push-ups**
+- [x] **Add Desk Push-ups**
   
   **Description**: Incline push-ups using desk edge (easier variant).
   
   **Requirements**: Rep-based. Could be a variant under push-ups or separate. Icon: 🖥️
 
 ### 2.2 Lower Body Exercises
-- [ ] **Add Squats**
+- [x] **Add Squats**
   
   **Description**: Bodyweight squats.
   
   **Requirements**: Rep-based tracking. Icon: 🦵. Color: Blue gradient.
 
-- [ ] **Add Lunges**
+- [x] **Add Lunges**
   
   **Description**: Forward or stationary lunges.
   
   **Requirements**: Rep-based (count each leg as 1 or total). Icon: 🚶. Color: Teal gradient.
 
-- [ ] **Add Calf Raises**
+- [x] **Add Calf Raises**
   
   **Description**: Standing calf raises.
   
   **Requirements**: Rep-based. Icon: 🦶. Color: Indigo gradient.
 
-- [ ] **Add Wall Sits**
+- [x] **Add Wall Sits**
   
   **Description**: Isometric wall sit hold.
   
   **Requirements**: TIME-BASED (needs timer mode). Icon: 🧱. Color: Amber gradient.
 
 ### 2.3 Core Exercises
-- [ ] **Add Planks**
+- [x] **Add Planks**
   
   **Description**: Standard forearm plank hold.
   
   **Requirements**: TIME-BASED (needs timer mode). Track duration in seconds. Icon: 🧘. Color: Green gradient.
 
-- [ ] **Add Crunches**
+- [x] **Add Crunches**
   
   **Description**: Basic abdominal crunches.
   
   **Requirements**: Rep-based. Icon: 🔥. Color: Red-orange gradient.
 
-- [ ] **Add Mountain Climbers**
+- [x] **Add Mountain Climbers**
   
   **Description**: Dynamic core exercise.
   
   **Requirements**: Rep-based (each leg = 1 or pairs). Icon: ⛰️. Color: Slate gradient.
 
 ### 2.4 Cardio Exercises
-- [ ] **Add Jumping Jacks**
+- [x] **Add Jumping Jacks**
   
   **Description**: Classic cardio exercise.
   
   **Requirements**: Rep-based. Icon: ⭐. Color: Yellow gradient.
 
-- [ ] **Add High Knees**
+- [x] **Add High Knees**
   
   **Description**: Running in place with high knees.
   
   **Requirements**: Rep-based or time-based. Icon: 🏃. Color: Cyan gradient.
 
-- [ ] **Add Burpees**
+- [x] **Add Burpees**
   
   **Description**: Full-body cardio exercise.
   
   **Requirements**: Rep-based. Icon: 💥. Color: Magenta gradient.
 
 ### 2.5 Desk Stretches
-- [ ] **Add Neck Rolls**
+- [x] **Add Neck Rolls**
   
   **Description**: Gentle neck stretching circles.
   
   **Requirements**: TIME-BASED (30 sec default). Icon: 🔄. Category: Stretch.
 
-- [ ] **Add Shoulder Stretch**
+- [x] **Add Shoulder Stretch**
   
   **Description**: Cross-body shoulder stretch.
   
   **Requirements**: TIME-BASED. Icon: 💆. Category: Stretch.
 
-- [ ] **Add Wrist Circles**
+- [x] **Add Wrist Circles**
   
   **Description**: Wrist mobility exercise for keyboard users.
   
   **Requirements**: TIME-BASED or rep-based. Icon: 🖐️. Category: Stretch.
 
-- [ ] **Add Hip Flexor Stretch**
+- [x] **Add Hip Flexor Stretch**
   
   **Description**: Standing or seated hip stretch.
   
   **Requirements**: TIME-BASED. Icon: 🦴. Category: Stretch.
 
-- [ ] **Add Seated Spinal Twist**
+- [x] **Add Seated Spinal Twist**
   
   **Description**: Seated rotation stretch for back.
   
   **Requirements**: TIME-BASED. Icon: 🌀. Category: Stretch.
 
 ### 2.6 Eye Exercises
-- [ ] **Add 20-20-20 Rule**
+- [x] **Add 20-20-20 Rule**
   
   **Description**: Every 20 minutes, look at something 20 feet away for 20 seconds.
   
   **Requirements**: TIME-BASED (20 sec). Special reminder integration. Icon: 👁️.
 
-- [ ] **Add Eye Circles**
+- [x] **Add Eye Circles**
   
   **Description**: Roll eyes in circles to reduce strain.
   
   **Requirements**: TIME-BASED. Icon: 👀.
 
-- [ ] **Add Focus Shift**
+- [x] **Add Focus Shift**
   
   **Description**: Alternate focusing on near and far objects.
   
@@ -428,7 +428,7 @@ Check off features as they're completed: `- [x]`
   
   **Requirements**:
   - Use Chrome Context Menus API
-  - Menu structure: "Remote Trainer" > "Log Push-ups" > "10", "15", "20", "Custom"
+  - Menu structure: "Ext & Flex" > "Log Push-ups" > "10", "15", "20", "Custom"
   - Show confirmation via notification or badge
   
   **UI Notes**: N/A (native browser menu).
@@ -540,7 +540,7 @@ Check off features as they're completed: `- [x]`
 ## 8. Achievement System
 
 ### 8.1 Core Achievements
-- [ ] **Implement achievement/badge system**
+- [x] **Implement achievement/badge system**
   
   **Description**: Unlock badges for various accomplishments.
   
@@ -554,40 +554,43 @@ Check off features as they're completed: `- [x]`
   **Achievements to implement**:
   
   **Getting Started**:
-  - [ ] "First Rep" — Log your first exercise
-  - [ ] "Beginner" — Complete 100 total reps
-  - [ ] "Regular" — Complete 1,000 total reps
-  - [ ] "Dedicated" — Complete 10,000 total reps
+  - [x] "First Rep" — Log your first exercise
+  - [x] "Beginner" — Complete 100 total XP (Centurion)
+  - [x] "Regular" — Complete 1,000 total XP (Committed)
+  - [x] "Dedicated" — Complete 10,000 total XP (Transcendent)
   
-  **Streaks**:
-  - [ ] "Week Warrior" — 7-day streak
-  - [ ] "Fortnight Fighter" — 14-day streak
-  - [ ] "Monthly Master" — 30-day streak
-  - [ ] "Iron Will" — 90-day streak
-  - [ ] "Year of Gains" — 365-day streak
+  **Leveling** (NEW - XP-based progression):
+  - [x] "Warming Up" — Reach Level 2 in any exercise
+  - [x] "Getting Stronger" — Reach Level 3 in any exercise
+  - [x] "Halfway Hero" — Reach Level 5 in any exercise
+  - [x] "Expert Form" — Reach Level 7 in any exercise
+  - [x] "Mastery Achieved" — Reach Level 10 in any exercise
   
-  **Single Day**:
-  - [ ] "Century Club" — 100 reps in one day
-  - [ ] "Double Century" — 200 reps in one day
-  - [ ] "Beast Mode" — 500 reps in one day
+  **Daily Intensity** (replaces Single Day):
+  - [x] "Active Day" — Earn 50 XP in one day
+  - [x] "Power Day" — Earn 100 XP in one day
+  - [x] "Beast Mode" — Earn 200 XP in one day
   
   **Variety**:
-  - [ ] "Well Rounded" — Do 3 different exercises in one day
-  - [ ] "Variety Pack" — Do 5 different exercises in one day
-  - [ ] "Jack of All Trades" — Do every exercise type at least once
+  - [x] "Mix It Up" — Do 3 different exercises in one day
+  - [x] "Full Rotation" — Do 5 different exercises in one day
+  - [x] "Completionist" — Do 8 different exercises in one day
   
-  **Time-based**:
-  - [ ] "Early Bird" — Exercise before 7am
-  - [ ] "Night Owl" — Exercise after 10pm
-  - [ ] "Lunch Break Lifter" — Exercise between 12-1pm
+  **Mastery** (NEW):
+  - [x] "Collector" — Unlock all exercises
+  - [x] "Triple Threat" — Reach Level 10 in 3 exercises
+  - [x] "Quintuple Master" — Reach Level 10 in 5 exercises
+  - [x] "Push-up Pro" — Reach Level 10 in Push-ups
+  - [x] "Plank Perfectionist" — Reach Level 10 in Plank
+  - [x] "Squat Sovereign" — Reach Level 10 in Squats
   
-  **Special**:
-  - [ ] "Comeback Kid" — Return after 7+ days of inactivity
-  - [ ] "Perfect Week" — Hit daily goal every day for a week
-  - [ ] "Plank Master" — Hold plank for 2+ minutes
+  **Unlocking** (NEW):
+  - [x] "New Challenger" — Unlock your first new exercise
+  - [x] "Building Arsenal" — Unlock 5 exercises
+  - [x] "Well Equipped" — Unlock 10 exercises
 
 ### 8.2 Achievement Notifications
-- [ ] **Celebrate achievement unlocks**
+- [x] **Celebrate achievement unlocks**
   
   **Description**: Special notification and animation when achievement unlocked.
   

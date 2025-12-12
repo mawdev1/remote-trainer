@@ -6,8 +6,41 @@
 import { AppSettings, DEFAULT_SETTINGS } from '@/types'
 import { syncStorage } from './chrome-storage'
 
-// Storage key
-const SETTINGS_KEY = 'trainer_settings'
+// Storage key (new extFlex prefix)
+const SETTINGS_KEY = 'extFlex_settings'
+
+// Legacy key for migration
+const LEGACY_SETTINGS_KEY = 'trainer_settings'
+
+// Migration flag key
+const SETTINGS_MIGRATION_FLAG = 'extFlex_settings_migration_done'
+
+/**
+ * Migrate settings from old storage key to new key
+ * Runs once on first load after update
+ */
+async function migrateSettingsStorage(): Promise<void> {
+  // Check if migration already done
+  const migrationDone = await syncStorage.get<boolean>(SETTINGS_MIGRATION_FLAG)
+  if (migrationDone) return
+
+  // Migrate settings
+  const oldSettings = await syncStorage.get<Partial<AppSettings>>(LEGACY_SETTINGS_KEY)
+  if (oldSettings && Object.keys(oldSettings).length > 0) {
+    const newSettings = await syncStorage.get<Partial<AppSettings>>(SETTINGS_KEY)
+    if (!newSettings || Object.keys(newSettings).length === 0) {
+      await syncStorage.set(SETTINGS_KEY, oldSettings)
+      console.log('Ext & Flex: Migrated settings to new storage key')
+    }
+  }
+
+  // Mark migration as complete
+  await syncStorage.set(SETTINGS_MIGRATION_FLAG, true)
+  console.log('Ext & Flex: Settings storage migration complete')
+}
+
+// Run migration on module load
+migrateSettingsStorage().catch(console.error)
 
 /**
  * Settings Storage API

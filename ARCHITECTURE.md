@@ -1,12 +1,12 @@
 # 🏗️ Architecture Guide
 
-> Technical documentation for the Remote Trainer codebase
+> Technical documentation for the Ext & Flex codebase
 
 ---
 
 ## Overview
 
-Remote Trainer follows a **feature-based modular architecture** designed for scalability and maintainability. The codebase is organized around features (exercises, dashboard, history) rather than technical layers (components, hooks, utils).
+Ext & Flex follows a **feature-based modular architecture** designed for scalability and maintainability. The codebase is organized around features (exercises, dashboard, history) rather than technical layers (components, hooks, utils).
 
 ---
 

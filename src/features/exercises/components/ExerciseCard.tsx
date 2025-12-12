@@ -1,11 +1,13 @@
 /**
  * ExerciseCard Component
  * Card for displaying and logging a single exercise type
+ * Now with XP bar and level display!
  */
 
 import React, { useState } from 'react'
 import { ExerciseDefinition } from '@/types'
-import { useExerciseStats, useExerciseStore } from '@/stores'
+import { getLevelProgress, getXpForNextLevel, getXpForCurrentLevel, MAX_LEVEL } from '@/types/progression'
+import { useExerciseStats, useExerciseStore, useExerciseProgression, useProgressionStore } from '@/stores'
 
 interface ExerciseCardProps {
   /** Exercise definition from registry */
@@ -20,18 +22,22 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
 }) => {
   const [customValue, setCustomValue] = useState('')
   const { logExercise } = useExerciseStore()
+  const { addXp } = useProgressionStore()
   const { today, week, isAnimating } = useExerciseStats(exercise.id)
+  const progression = useExerciseProgression(exercise.id)
 
   const options = quickOptions || exercise.defaultQuickOptions
 
   const handleQuickAdd = async (value: number) => {
     await logExercise(exercise.id, value)
+    await addXp(exercise.id, value)
   }
 
   const handleCustomSubmit = async () => {
     const value = parseInt(customValue, 10)
     if (value > 0) {
       await logExercise(exercise.id, value)
+      await addXp(exercise.id, value)
       setCustomValue('')
     }
   }
@@ -46,6 +52,12 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
   const isTimeBased = exercise.trackingType === 'duration'
   const unitLabel = isTimeBased ? 's' : ''
 
+  // XP progress calculation
+  const currentLevelXp = getXpForCurrentLevel(progression.level)
+  const nextLevelXp = getXpForNextLevel(progression.level)
+  const xpInLevel = progression.xp - currentLevelXp
+  const xpNeeded = nextLevelXp - currentLevelXp
+
   return (
     <div className={`exercise-card ${isAnimating ? 'pop-animation' : ''}`}>
       <div className="exercise-header">
@@ -57,10 +69,36 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
         >
           {exercise.icon}
         </div>
-        <div>
-          <h3 className="exercise-title">{exercise.name}</h3>
-          <p className="exercise-subtitle">{exercise.subtitle}</p>
+        <div className="exercise-header-text">
+          <div className="exercise-title-row">
+            <h3 className="exercise-title">{exercise.name}</h3>
+            <span 
+              className="exercise-level"
+              style={{ color: exercise.color }}
+            >
+              Lv.{progression.level}
+            </span>
+          </div>
+          <p className="exercise-subtitle">{progression.levelTitle}</p>
         </div>
+      </div>
+
+      {/* XP Progress Bar */}
+      <div className="xp-bar-container">
+        <div 
+          className="xp-bar"
+          style={{
+            width: `${progression.isMaxLevel ? 100 : progression.levelProgress}%`,
+            background: `linear-gradient(90deg, ${exercise.color} 0%, ${exercise.colorEnd} 100%)`,
+          }}
+        />
+        <span className="xp-text">
+          {progression.isMaxLevel ? (
+            '✨ MAX LEVEL'
+          ) : (
+            `${xpInLevel} / ${xpNeeded} XP`
+          )}
+        </span>
       </div>
 
       <div className="exercise-stats">
@@ -69,8 +107,8 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({
           <span className="stat-label">Today</span>
         </div>
         <div className="stat-item">
-          <span className="stat-value">{today.setCount}</span>
-          <span className="stat-label">Sets</span>
+          <span className="stat-value">{progression.xp}</span>
+          <span className="stat-label">Total XP</span>
         </div>
         <div className="stat-item">
           <span className="stat-value">{week.totalValue}{unitLabel}</span>
