@@ -37,7 +37,9 @@ export const Header: React.FC<HeaderProps> = ({ date = new Date() }) => {
   return (
     <header className="app-header">
       <div>
-        <h1 className="app-title">Ext & Flex</h1>
+        <h1 className="app-title">
+          <span className="gradient-text font-display">Ext</span> & Flex
+        </h1>
         <p className="date-display">{dateString}</p>
       </div>
       <button

@@ -5,6 +5,16 @@
 
 export type ThemeMode = 'light' | 'dark' | 'system'
 
+export type BackgroundStyle = 'minimal' | 'aurora' | 'gradient' | 'cosmos' | 'waves'
+
+export const BACKGROUND_OPTIONS: { id: BackgroundStyle; name: string; description: string }[] = [
+  { id: 'minimal', name: 'Minimal', description: 'Clean, solid background' },
+  { id: 'aurora', name: 'Aurora', description: 'Floating dots with soft glow' },
+  { id: 'gradient', name: 'Gradient', description: 'Static layered gradients' },
+  { id: 'cosmos', name: 'Cosmos', description: 'Starfield with twinkling dots' },
+  { id: 'waves', name: 'Waves', description: 'Gentle flowing motion' },
+]
+
 /**
  * Reminder/notification settings
  */
@@ -37,6 +47,8 @@ export interface GoalSettings {
 export interface DisplaySettings {
   /** Theme mode */
   theme: ThemeMode
+  /** Background style */
+  background: BackgroundStyle
   /** Whether to show celebration animations */
   celebrationsEnabled: boolean
   /** Whether to show the streak counter */
@@ -80,6 +92,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   },
   display: {
     theme: 'system',
+    background: 'aurora',
     celebrationsEnabled: true,
     showStreak: true,
   },

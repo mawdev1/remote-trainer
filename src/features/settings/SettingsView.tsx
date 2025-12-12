@@ -6,15 +6,19 @@
 import React, { useState } from 'react'
 import { useExerciseStore, useProgressionStore } from '@/stores'
 import { EXERCISE_REGISTRY } from '@/features/exercises'
-import { ACHIEVEMENTS } from '@/features/progression'
+import { ACHIEVEMENTS, ACHIEVEMENT_CATEGORIES } from '@/features/progression'
+import { useTheme } from '@/components/theme/ThemeProvider'
+import { BACKGROUND_OPTIONS, BackgroundStyle } from '@/types'
 
 type ConfirmAction = 'progress' | 'history' | 'all' | null
 
 export const SettingsView: React.FC = () => {
   const [confirmAction, setConfirmAction] = useState<ConfirmAction>(null)
   const [isResetting, setIsResetting] = useState(false)
+  const [showAchievements, setShowAchievements] = useState(false)
   const { clearHistory } = useExerciseStore()
-  const { resetProgression, data } = useProgressionStore()
+  const { resetProgression, data, isAchievementUnlocked } = useProgressionStore()
+  const { background, setBackground } = useTheme()
 
   const handleReset = async (action: ConfirmAction) => {
     if (!action) return
@@ -60,6 +64,23 @@ export const SettingsView: React.FC = () => {
 
   return (
     <div className="settings-view">
+      {/* Background Selection */}
+      <div className="settings-section">
+        <h3 className="settings-section-title">🎨 Background</h3>
+        <div className="background-options">
+          {BACKGROUND_OPTIONS.map((option) => (
+            <button
+              key={option.id}
+              className={`background-option ${background === option.id ? 'active' : ''}`}
+              onClick={() => setBackground(option.id)}
+            >
+              <span className="background-option-name">{option.name}</span>
+              <span className="background-option-desc">{option.description}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* App Stats */}
       <div className="settings-section">
         <h3 className="settings-section-title">📊 Your Stats</h3>
@@ -72,10 +93,13 @@ export const SettingsView: React.FC = () => {
             <span className="settings-stat-value">{unlockedCount}/{EXERCISE_REGISTRY.length}</span>
             <span className="settings-stat-label">Exercises</span>
           </div>
-          <div className="settings-stat">
+          <button 
+            className="settings-stat clickable"
+            onClick={() => setShowAchievements(true)}
+          >
             <span className="settings-stat-value">{achievementCount}/{ACHIEVEMENTS.length}</span>
-            <span className="settings-stat-label">Achievements</span>
-          </div>
+            <span className="settings-stat-label">Achievements →</span>
+          </button>
         </div>
       </div>
 
@@ -165,6 +189,63 @@ export const SettingsView: React.FC = () => {
               >
                 {isResetting ? 'Resetting...' : 'Yes, Reset'}
               </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Achievements Modal */}
+      {showAchievements && (
+        <>
+          <div className="confirm-backdrop" onClick={() => setShowAchievements(false)} />
+          <div className="achievements-modal">
+            <div className="achievements-modal-header">
+              <h2 className="achievements-modal-title">🏆 Achievements</h2>
+              <span className="achievements-modal-count">
+                {achievementCount} / {ACHIEVEMENTS.length} unlocked
+              </span>
+              <button 
+                className="achievements-modal-close"
+                onClick={() => setShowAchievements(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <div className="achievements-modal-content">
+              {Object.entries(ACHIEVEMENT_CATEGORIES).map(([categoryId, category]) => {
+                const categoryAchievements = ACHIEVEMENTS.filter(a => a.category === categoryId)
+                if (categoryAchievements.length === 0) return null
+                
+                return (
+                  <div key={categoryId} className="achievement-category">
+                    <h3 className="achievement-category-title">
+                      {category.icon} {category.name}
+                    </h3>
+                    <div className="achievement-list">
+                      {categoryAchievements.map(achievement => {
+                        const unlocked = isAchievementUnlocked(achievement.id)
+                        return (
+                          <div 
+                            key={achievement.id} 
+                            className={`achievement-item ${unlocked ? 'unlocked' : 'locked'}`}
+                          >
+                            <span className="achievement-icon">
+                              {unlocked ? achievement.icon : '🔒'}
+                            </span>
+                            <div className="achievement-info">
+                              <span className="achievement-name">{achievement.name}</span>
+                              <span className="achievement-desc">{achievement.description}</span>
+                            </div>
+                            {achievement.xpReward && (
+                              <span className="achievement-xp">+{achievement.xpReward} XP</span>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </>
