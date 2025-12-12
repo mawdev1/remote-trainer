@@ -1,0 +1,123 @@
+/**
+ * Settings Storage
+ * Handles user preferences and configuration
+ */
+
+import { AppSettings, DEFAULT_SETTINGS } from '@/types'
+import { syncStorage } from './chrome-storage'
+
+// Storage key
+const SETTINGS_KEY = 'trainer_settings'
+
+/**
+ * Settings Storage API
+ */
+export const settingsStorage = {
+  /**
+   * Get all settings (with defaults merged)
+   */
+  async get(): Promise<AppSettings> {
+    const stored = await syncStorage.get<Partial<AppSettings>>(SETTINGS_KEY)
+    return deepMerge(DEFAULT_SETTINGS, stored || {})
+  },
+
+  /**
+   * Update settings (partial update supported)
+   */
+  async update(partial: DeepPartial<AppSettings>): Promise<AppSettings> {
+    const current = await this.get()
+    const updated = deepMerge(current, partial)
+    await syncStorage.set(SETTINGS_KEY, updated)
+    return updated
+  },
+
+  /**
+   * Reset all settings to defaults
+   */
+  async reset(): Promise<AppSettings> {
+    await syncStorage.set(SETTINGS_KEY, DEFAULT_SETTINGS)
+    return DEFAULT_SETTINGS
+  },
+
+  /**
+   * Get a specific setting section
+   */
+  async getSection<K extends keyof AppSettings>(section: K): Promise<AppSettings[K]> {
+    const settings = await this.get()
+    return settings[section]
+  },
+
+  /**
+   * Update a specific setting section
+   */
+  async updateSection<K extends keyof AppSettings>(
+    section: K,
+    value: Partial<AppSettings[K]>
+  ): Promise<AppSettings[K]> {
+    const current = await this.get()
+    const updated = { ...current[section], ...value }
+    await this.update({ [section]: updated } as DeepPartial<AppSettings>)
+    return updated
+  },
+
+  /**
+   * Listen for settings changes
+   */
+  onChange(callback: (settings: AppSettings) => void): () => void {
+    return syncStorage.onChange(async (changes) => {
+      if (changes[SETTINGS_KEY]) {
+        const settings = await this.get()
+        callback(settings)
+      }
+    })
+  },
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// UTILITY TYPES & FUNCTIONS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Deep partial type for nested partial updates
+ */
+type DeepPartial<T> = T extends object
+  ? { [P in keyof T]?: DeepPartial<T[P]> }
+  : T
+
+/**
+ * Deep merge two objects
+ */
+function deepMerge<T extends Record<string, unknown>>(
+  target: T,
+  source: Partial<T>
+): T {
+  const result = { ...target }
+
+  for (const key in source) {
+    if (Object.prototype.hasOwnProperty.call(source, key)) {
+      const sourceValue = source[key]
+      const targetValue = target[key]
+
+      if (
+        sourceValue !== undefined &&
+        typeof sourceValue === 'object' &&
+        sourceValue !== null &&
+        !Array.isArray(sourceValue) &&
+        typeof targetValue === 'object' &&
+        targetValue !== null &&
+        !Array.isArray(targetValue)
+      ) {
+        // Recursively merge nested objects
+        result[key] = deepMerge(
+          targetValue as Record<string, unknown>,
+          sourceValue as Partial<Record<string, unknown>>
+        ) as T[Extract<keyof T, string>]
+      } else if (sourceValue !== undefined) {
+        result[key] = sourceValue as T[Extract<keyof T, string>]
+      }
+    }
+  }
+
+  return result
+}
+

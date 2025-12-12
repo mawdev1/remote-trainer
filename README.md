@@ -108,6 +108,12 @@ npm install
 # Start development mode (watches for changes)
 npm run dev
 
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
 # Type checking
 npm run type-check
 
@@ -121,24 +127,26 @@ npm run build
 ### Project Structure
 
 ```
-remote-trainer-extension/
-├── src/
-│   ├── app/              # Main React application
-│   ├── components/       # Reusable UI components
-│   │   ├── theme/        # Theme provider & utilities
-│   │   └── ui/           # Shadcn-style components
-│   ├── lib/              # Core utilities
-│   │   ├── api.ts        # API helpers
-│   │   ├── rpc.ts        # RPC utilities
-│   │   └── storage.ts    # Chrome storage abstraction
-│   ├── scripts/
-│   │   ├── background/   # Service worker
-│   │   └── content/      # Content scripts
-│   └── styles/           # Global CSS & Tailwind
-├── public/               # Static assets & manifest
-├── dist/                 # Built extension (git-ignored)
-└── webpack.config.js     # Build configuration
+src/
+├── app/                  # Application entry point
+├── components/           # Shared components
+│   ├── common/           # Header, Footer, ViewToggle, icons
+│   ├── theme/            # Theme provider
+│   └── ui/               # Base UI primitives (shadcn-style)
+├── features/             # Feature modules
+│   ├── exercises/        # Exercise registry & components
+│   ├── dashboard/        # Dashboard view
+│   └── history/          # History view
+├── stores/               # Global state (React Context)
+├── lib/                  # Core libraries
+│   ├── storage/          # Chrome storage abstraction
+│   └── utils/            # Utility functions
+├── types/                # TypeScript definitions
+├── test/                 # Test utilities & setup
+└── scripts/              # Extension scripts
 ```
+
+> 📖 See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed documentation.
 
 <br />
 
@@ -152,6 +160,8 @@ remote-trainer-extension/
 | **Language** | TypeScript 5.3 |
 | **Styling** | Tailwind CSS 4.1 |
 | **UI Components** | Radix UI Primitives |
+| **State** | React Context |
+| **Testing** | Jest + React Testing Library |
 | **Build Tool** | Webpack 5 |
 | **Extension API** | Chrome Manifest V3 |
 | **Storage** | Chrome Storage API |

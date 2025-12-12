@@ -1,0 +1,91 @@
+/**
+ * Settings Types
+ * User preferences and configuration
+ */
+
+export type ThemeMode = 'light' | 'dark' | 'system'
+
+/**
+ * Reminder/notification settings
+ */
+export interface ReminderSettings {
+  /** Whether break reminders are enabled */
+  enabled: boolean
+  /** Interval in minutes between reminders */
+  intervalMinutes: number
+  /** Quiet hours start (24h format, e.g., 22 for 10pm) */
+  quietHoursStart: number | null
+  /** Quiet hours end (24h format, e.g., 7 for 7am) */
+  quietHoursEnd: number | null
+  /** Whether to play sound with notifications */
+  soundEnabled: boolean
+}
+
+/**
+ * Goal settings for exercises
+ */
+export interface GoalSettings {
+  /** Daily goals per exercise ID */
+  daily: Record<string, number>
+  /** Weekly goals per exercise ID */
+  weekly: Record<string, number>
+}
+
+/**
+ * Display and UI settings
+ */
+export interface DisplaySettings {
+  /** Theme mode */
+  theme: ThemeMode
+  /** Whether to show celebration animations */
+  celebrationsEnabled: boolean
+  /** Whether to show the streak counter */
+  showStreak: boolean
+}
+
+/**
+ * Exercise customization settings
+ */
+export interface ExerciseSettings {
+  /** List of enabled exercise IDs */
+  enabledExercises: string[]
+  /** Custom quick-add options per exercise ID */
+  customQuickOptions: Record<string, number[]>
+}
+
+/**
+ * Complete app settings object
+ */
+export interface AppSettings {
+  reminders: ReminderSettings
+  goals: GoalSettings
+  display: DisplaySettings
+  exercises: ExerciseSettings
+}
+
+/**
+ * Default settings
+ */
+export const DEFAULT_SETTINGS: AppSettings = {
+  reminders: {
+    enabled: false,
+    intervalMinutes: 60,
+    quietHoursStart: null,
+    quietHoursEnd: null,
+    soundEnabled: true,
+  },
+  goals: {
+    daily: {},
+    weekly: {},
+  },
+  display: {
+    theme: 'system',
+    celebrationsEnabled: true,
+    showStreak: true,
+  },
+  exercises: {
+    enabledExercises: [],  // Empty means "use defaults from registry"
+    customQuickOptions: {},
+  },
+}
+
