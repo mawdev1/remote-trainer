@@ -1,14 +1,3 @@
-import RPC from './rpc'
-
-const rpc = new RPC()
-
-// Example API method
-function getDadJoke() {
-  return rpc.invoke('getDadJoke')
-}
-
-const api = {
-  getDadJoke,
-}
-
-export default api
+// API module - currently unused
+// Remote Trainer stores all data locally and doesn't require external APIs
+export default {}

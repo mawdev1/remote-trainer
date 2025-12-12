@@ -1,26 +1,25 @@
-# Chrome Extension Boilerplate
+# Remote Trainer
 
-Modern MV3 extension boilerplate with React, TypeScript, Tailwind, shadcn-style components, and a typed RPC messaging system.
+A personal fitness trainer Chrome extension for remote workers. Track pushups and arm curls right from your browser. All data stays local on your device.
 
 ## Features
 
-- **Typed RPC messaging**: zod-validated request/response, timeouts, sender validation
-- **React 18 + TypeScript**: strict mode with enhanced tsconfig rules
-- **Tailwind CSS**: configured via `@tailwindcss/postcss`
-- **shadcn-style components**: Button, Card, Separator, Select, DropdownMenu, Dialog, Tooltip, Toast, Command, Switch (Radix-based)
-- **Theme**: system/light/dark with `ThemeProvider` and Tailwind `dark` class
-- **Content UI isolation**: Shadow DOM mount for content script UI to avoid CSS collisions
-- **MV3 service worker**: background script using Webpack 5
-- **ESLint & Prettier**: linting and formatting
-- **Optimized build**: prod minification and `DefinePlugin` for React optimizations
+- **Quick logging**: One-click buttons to log +5, +10, +15 reps or enter custom amounts
+- **Two exercises**: Track pushups and dumbbell arm curls
+- **Today & weekly stats**: See your progress at a glance
+- **7-day history**: Visual bar chart showing your workout patterns
+- **Local storage**: All data stored in your browser, never sent to any server
+- **Dark/Light mode**: Automatic theme detection with manual toggle
+- **Beautiful UI**: Modern, clean design that stays out of your way
 
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js LTS
+- Chrome browser
 
-### Install
+### Install Dependencies
 
 ```bash
 npm install
@@ -34,134 +33,72 @@ npm run dev
 
 Watches and rebuilds `dist/` on changes.
 
-### Type check & Lint
-
-```bash
-npm run type-check
-npm run lint
-npm run lint:fix
-```
-
-### Build
+### Build for Production
 
 ```bash
 npm run build
 ```
 
-Load `dist/` in `chrome://extensions` with Developer Mode enabled.
+### Load in Chrome
+
+1. Open `chrome://extensions` in Chrome
+2. Enable "Developer mode" (toggle in top right)
+3. Click "Load unpacked"
+4. Select the `dist/` folder
+
+## Usage
+
+1. Click the Remote Trainer icon in your browser toolbar
+2. Use the +5, +10, +15 buttons to quickly log reps, or enter a custom number
+3. Switch between "Dashboard" and "History" views
+4. Toggle dark/light mode with the sun/moon icon
 
 ## Project Structure
 
 ```
-chrome-extension-boilerplate/
-├── public/                    # Static assets and manifest
-│   ├── icons/                 # Extension icons
-│   ├── styles/                # Optional content CSS referenced by manifest
-│   └── manifest.json          # MV3 manifest (permissions, matches, etc.)
+remote-trainer-extension/
+├── public/
+│   ├── icons/            # Extension icons
+│   └── manifest.json     # MV3 manifest
 ├── src/
 │   ├── app/
-│   │   └── App.tsx            # Popup UI (React)
+│   │   └── App.tsx       # Main popup UI
 │   ├── components/
-│   │   ├── theme/ThemeProvider.tsx
-│   │   └── ui/                # shadcn-style wrappers (Radix-based)
-│   ├── features/              # Feature-level components (lazy-loaded demos)
+│   │   ├── theme/        # Theme provider
+│   │   └── ui/           # UI components
 │   ├── lib/
-│   │   ├── api.ts             # Client API calling RPC methods
-│   │   ├── rpc.ts             # Typed RPC transport (background listener + client)
-│   │   └── storage.ts         # Promise-based chrome.storage helpers
+│   │   └── storage.ts    # Exercise data storage layer
 │   ├── scripts/
-│   │   ├── background/background.ts
-│   │   └── content/content.ts
-│   ├── styles/styles.css      # Popup styles (Tailwind, size variables)
-│   ├── popup.html             # Popup HTML template
-│   └── popup.tsx              # Popup entry (mounts React)
-├── dist/                      # Build output
-├── postcss.config.js          # PostCSS with @tailwindcss/postcss
-├── tailwind.config.js         # Tailwind config (darkMode: 'class')
-├── tsconfig.json              # TS config with strict and extra safety flags
-├── webpack.config.js          # Common Webpack config
-├── webpack.dev.js             # Dev Webpack config
-├── webpack.prod.js            # Prod Webpack config
-└── package.json
+│   │   ├── background/   # Service worker
+│   │   └── content/      # Content script (minimal)
+│   ├── styles/           # Tailwind CSS styles
+│   └── popup.tsx         # Popup entry point
+└── dist/                 # Build output
 ```
 
-## Messaging (RPC)
+## Data Storage
 
-Background registers typed methods, UI invokes them via the client API. Schemas are validated and requests timeout if no response.
+All workout data is stored locally using `chrome.storage.local`. The extension never sends data to any external server. Your workout history stays on your device.
 
-```ts
-// src/scripts/background/background.ts
-import { RPC } from '@/lib/rpc'
-
-const rpc = new RPC()
-
-rpc.register('getDadJoke', async () => {
-  const res = await fetch('https://icanhazdadjoke.com/', { headers: { Accept: 'text/plain' } })
-  if (!res.ok) throw new Error(`http ${res.status}`)
-  return await res.text()
-})
-```
-
-```ts
-// src/lib/api.ts
-import { RPC } from '@/lib/rpc'
-
-const rpc = new RPC()
-
-export function getDadJoke(): Promise<string> {
-  return rpc.invoke('getDadJoke')
-}
-```
-
-## Theme & UI
-
-- Wrap popup UI with `ThemeProvider` (`src/components/theme/ThemeProvider.tsx`).
-- Tailwind dark mode via the `dark` class; system/light/dark stored in `localStorage`.
-- Components are shadcn-style wrappers over Radix primitives for consistent theming.
-
-```tsx
-// src/app/App.tsx (excerpt)
-import { ThemeProvider } from '@/components/theme/ThemeProvider'
-
-export default function App() {
-  return (
-    <ThemeProvider>
-      {/* your UI */}
-    </ThemeProvider>
-  )
-}
-```
-
-## Content Script UI (Shadow DOM)
-
-The content script mounts a minimal UI into a Shadow DOM root to avoid page style collisions. See `src/scripts/content/content.ts`.
-
-## Popup Size
-
-Popup dimensions are controlled via CSS variables in `src/styles/styles.css`:
-
-```css
-:root { --popup-width: 600px; --popup-height: 400px }
-```
-
-## Manifest & Permissions
-
-- `public/manifest.json` uses MV3 service worker.
-- `content_scripts.matches` should be narrowed to the domains you need.
-- `host_permissions` declares outbound hosts (e.g., `https://icanhazdadjoke.com/`).
-- CSP is restricted to `'self'` with explicit `connect-src` entries.
+Data structure:
+- Each exercise entry includes: type (pushups/arm_curls), reps, timestamp
+- Statistics are computed client-side from stored entries
 
 ## Scripts
 
-- `npm run dev` – watch mode build
-- `npm run build` – production build
+- `npm run dev` – Watch mode build
+- `npm run build` – Production build
 - `npm run type-check` – TypeScript check
-- `npm run lint` / `npm run lint:fix` – linting
+- `npm run lint` / `npm run lint:fix` – Linting
 
-## Notes
+## Privacy
 
-- The demo uses a public joke API. Replace with your own business logic.
-- Heavy UI demos (dialog/command) are lazy-loaded to keep initial popup cost lower.
+Remote Trainer is designed with privacy in mind:
+- No account required
+- No data collection
+- No analytics
+- Everything stored locally in your browser
+- Open source
 
 ## License
 

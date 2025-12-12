@@ -1,14 +1,14 @@
 {
-  "name": "chrome-extension-webpack",
+  "name": "remote-trainer-extension",
   "version": "1.0.0",
-  "description": "",
+  "description": "A personal fitness trainer for remote workers. Track pushups and arm curls right from your browser.",
   "main": "index.js",
   "scripts": {
     "dev": "webpack --watch --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "type-check": "tsc --noEmit",
-    "lint": "eslint 'src/**/*.{js,ts,tsx}' 'public/**/*.{js,ts}'",
-    "lint:fix": "eslint --fix 'src/**/*.{js,ts,tsx}' 'public/**/*.{js,ts}'"
+    "lint": "eslint src --ext .js,.ts,.tsx",
+    "lint:fix": "eslint src --ext .js,.ts,.tsx --fix"
   },
   "keywords": [],
   "author": "",

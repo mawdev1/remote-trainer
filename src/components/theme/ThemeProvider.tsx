@@ -21,7 +21,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     try {
       const stored = localStorage.getItem('ext-theme') as Theme | null
       if (stored) setTheme(stored)
-    } catch {}
+    } catch (e) {
+      // Ignore storage access errors (e.g., in restricted contexts)
+    }
   }, [])
 
   useEffect(() => {
@@ -30,7 +32,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     root.classList.toggle('dark', isDark)
     try {
       localStorage.setItem('ext-theme', theme)
-    } catch {}
+    } catch (e) {
+      // Ignore storage access errors
+    }
   }, [theme])
 
   const value = useMemo(() => ({ theme, setTheme }), [theme])

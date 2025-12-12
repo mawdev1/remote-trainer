@@ -1,19 +1,5 @@
-import { RPC } from '@/lib/rpc'
+// API module - currently unused
+// Remote Trainer stores all data locally and doesn't require external APIs
+// This file is kept as a placeholder for potential future integrations
 
-interface API {
-  getDadJoke: () => Promise<string>
-}
-
-const rpc = new RPC()
-
-function getDadJoke(): Promise<string> {
-  return rpc.invoke('getDadJoke')
-}
-
-const api: API = {
-  getDadJoke,
-}
-
-export default api
-
-
+export {}

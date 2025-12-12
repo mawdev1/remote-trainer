@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 export const Card: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
-  <div className={(className || '') + ' rounded-lg border bg-white text-gray-900 shadow dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100'} {...props} />
+  <div className={(className || '') + ' rounded-xl border bg-white text-gray-900 shadow-sm transition-all duration-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100'} {...props} />
 )
 
 export const CardHeader: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
@@ -23,5 +23,3 @@ export const CardContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ cl
 export const CardFooter: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
   <div className={(className || '') + ' flex items-center p-4 pt-0'} {...props} />
 )
-
-
