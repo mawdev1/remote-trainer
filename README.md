@@ -1,105 +1,214 @@
-# Remote Trainer
+<div align="center">
 
-A personal fitness trainer Chrome extension for remote workers. Track pushups and arm curls right from your browser. All data stays local on your device.
+# 💪 Remote Trainer
 
-## Features
+### *Stay fit while you work from home*
 
-- **Quick logging**: One-click buttons to log +5, +10, +15 reps or enter custom amounts
-- **Two exercises**: Track pushups and dumbbell arm curls
-- **Today & weekly stats**: See your progress at a glance
-- **7-day history**: Visual bar chart showing your workout patterns
-- **Local storage**: All data stored in your browser, never sent to any server
-- **Dark/Light mode**: Automatic theme detection with manual toggle
-- **Beautiful UI**: Modern, clean design that stays out of your way
+[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://developer.chrome.com/docs/extensions/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
-## Getting Started
+<br />
 
-### Prerequisites
+A beautiful, privacy-focused Chrome extension that helps remote workers track their daily exercises without leaving the browser. Log push-ups and arm curls with a single click, visualize your progress, and build healthy habits—all while your data stays completely local.
 
-- Node.js LTS
-- Chrome browser
+<br />
 
-### Install Dependencies
+[Features](#-features) • [Installation](#-installation) • [Development](#-development) • [Tech Stack](#-tech-stack) • [License](#-license)
+
+<br />
+
+---
+
+</div>
+
+<br />
+
+## ✨ Features
+
+<table>
+<tr>
+<td width="50%">
+
+### 🎯 Quick Logging
+One-click buttons for common rep counts. Log exercises in seconds without breaking your workflow.
+
+### 📊 Progress Tracking
+Daily and weekly statistics at a glance. Watch your totals grow as you build consistency.
+
+### 📈 Visual History
+Beautiful bar charts showing your last 7 days of activity. Spot trends and stay motivated.
+
+</td>
+<td width="50%">
+
+### 🌓 Dark & Light Mode
+Seamless theme switching that respects your system preferences. Easy on the eyes, day or night.
+
+### 🔒 100% Private
+All data stored locally in your browser using Chrome's storage API. Zero servers, zero tracking.
+
+### ⚡ Lightweight
+Minimal footprint. Fast popup that doesn't slow down your browsing experience.
+
+</td>
+</tr>
+</table>
+
+<br />
+
+## 🏋️ Exercises Supported
+
+| Exercise | Icon | Description |
+|----------|------|-------------|
+| **Push-ups** | 💪 | Classic upper body strength builder |
+| **Arm Curls** | 🏋️ | Bicep training with dumbbells |
+
+> 💡 *More exercises coming soon! Have a suggestion? Open an issue.*
+
+<br />
+
+## 📦 Installation
+
+### From Source (Developer Mode)
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/remote-trainer-extension.git
+   cd remote-trainer-extension
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Build the extension**
+   ```bash
+   npm run build
+   ```
+
+4. **Load in Chrome**
+   - Navigate to `chrome://extensions/`
+   - Enable **Developer mode** (toggle in top-right)
+   - Click **Load unpacked**
+   - Select the `dist` folder
+
+5. **Start training!** 💪
+
+<br />
+
+## 🛠 Development
 
 ```bash
+# Install dependencies
 npm install
-```
 
-### Development
-
-```bash
+# Start development mode (watches for changes)
 npm run dev
-```
 
-Watches and rebuilds `dist/` on changes.
+# Type checking
+npm run type-check
 
-### Build for Production
+# Lint code
+npm run lint
 
-```bash
+# Build for production
 npm run build
 ```
 
-### Load in Chrome
-
-1. Open `chrome://extensions` in Chrome
-2. Enable "Developer mode" (toggle in top right)
-3. Click "Load unpacked"
-4. Select the `dist/` folder
-
-## Usage
-
-1. Click the Remote Trainer icon in your browser toolbar
-2. Use the +5, +10, +15 buttons to quickly log reps, or enter a custom number
-3. Switch between "Dashboard" and "History" views
-4. Toggle dark/light mode with the sun/moon icon
-
-## Project Structure
+### Project Structure
 
 ```
 remote-trainer-extension/
-├── public/
-│   ├── icons/            # Extension icons
-│   └── manifest.json     # MV3 manifest
 ├── src/
-│   ├── app/
-│   │   └── App.tsx       # Main popup UI
-│   ├── components/
-│   │   ├── theme/        # Theme provider
-│   │   └── ui/           # UI components
-│   ├── lib/
-│   │   └── storage.ts    # Exercise data storage layer
+│   ├── app/              # Main React application
+│   ├── components/       # Reusable UI components
+│   │   ├── theme/        # Theme provider & utilities
+│   │   └── ui/           # Shadcn-style components
+│   ├── lib/              # Core utilities
+│   │   ├── api.ts        # API helpers
+│   │   ├── rpc.ts        # RPC utilities
+│   │   └── storage.ts    # Chrome storage abstraction
 │   ├── scripts/
 │   │   ├── background/   # Service worker
-│   │   └── content/      # Content script (minimal)
-│   ├── styles/           # Tailwind CSS styles
-│   └── popup.tsx         # Popup entry point
-└── dist/                 # Build output
+│   │   └── content/      # Content scripts
+│   └── styles/           # Global CSS & Tailwind
+├── public/               # Static assets & manifest
+├── dist/                 # Built extension (git-ignored)
+└── webpack.config.js     # Build configuration
 ```
 
-## Data Storage
+<br />
 
-All workout data is stored locally using `chrome.storage.local`. The extension never sends data to any external server. Your workout history stays on your device.
+## 🧰 Tech Stack
 
-Data structure:
-- Each exercise entry includes: type (pushups/arm_curls), reps, timestamp
-- Statistics are computed client-side from stored entries
+<div align="center">
 
-## Scripts
+| Category | Technology |
+|----------|------------|
+| **Framework** | React 18 with Hooks |
+| **Language** | TypeScript 5.3 |
+| **Styling** | Tailwind CSS 4.1 |
+| **UI Components** | Radix UI Primitives |
+| **Build Tool** | Webpack 5 |
+| **Extension API** | Chrome Manifest V3 |
+| **Storage** | Chrome Storage API |
 
-- `npm run dev` – Watch mode build
-- `npm run build` – Production build
-- `npm run type-check` – TypeScript check
-- `npm run lint` / `npm run lint:fix` – Linting
+</div>
 
-## Privacy
+<br />
 
-Remote Trainer is designed with privacy in mind:
-- No account required
-- No data collection
-- No analytics
-- Everything stored locally in your browser
-- Open source
+## 🎨 Design Philosophy
 
-## License
+Remote Trainer is built with these principles in mind:
 
-ISC
+- **🚀 Speed** — Popup loads instantly. No spinners, no waiting.
+- **🎯 Focus** — Do one thing well. Track exercises, nothing else.
+- **🔐 Privacy** — Your fitness data never leaves your device.
+- **✨ Delight** — Smooth animations and satisfying interactions.
+- **🌍 Accessibility** — High contrast, keyboard navigable, screen reader friendly.
+
+<br />
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how you can help:
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+### Ideas for Contributions
+
+- [ ] Add more exercise types (squats, planks, etc.)
+- [ ] Export data to CSV/JSON
+- [ ] Reminders/notifications to exercise
+- [ ] Weekly/monthly goals
+- [ ] Streak tracking
+- [ ] Customizable quick-add buttons
+
+<br />
+
+## 📄 License
+
+This project is licensed under the ISC License. See the [LICENSE](LICENSE) file for details.
+
+<br />
+
+---
+
+<div align="center">
+
+**Made with ❤️ for remote workers everywhere**
+
+*Take a break. Do some push-ups. Your body will thank you.*
+
+<br />
+
+⭐ **Star this repo if you find it useful!** ⭐
+
+</div>
