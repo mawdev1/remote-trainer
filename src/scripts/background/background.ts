@@ -41,6 +41,20 @@ const DEFAULT_REMINDER_SETTINGS = {
   smartSuggestions: true,
 }
 
+type NotificationsPermissionLevel = 'granted' | 'denied'
+type ActiveNotifications = Record<string, chrome.notifications.NotificationOptions<false>>
+
+type StoredProgression = {
+  exercises?: Record<string, { unlocked?: boolean }>
+}
+
+type StoredExerciseEntry = {
+  timestamp?: number
+  exerciseId?: string
+}
+
+const DEBUG_TARGET = self as unknown as { extFlexDebug?: Record<string, unknown> }
+
 // Exercise suggestions for notifications
 const EXERCISE_SUGGESTIONS = [
   { id: 'pushups', name: 'Push-ups', icon: '💪', defaultReps: 15 },
@@ -113,10 +127,12 @@ async function getReminderSettings(): Promise<typeof DEFAULT_REMINDER_SETTINGS> 
 async function getUnlockedExercises(): Promise<string[]> {
   return new Promise((resolve) => {
     chrome.storage.local.get(STORAGE_KEYS.PROGRESSION, (result) => {
-      const progression = result[STORAGE_KEYS.PROGRESSION]
-      if (progression?.exercises) {
-        const unlocked = Object.entries(progression.exercises)
-          .filter(([_, data]: [string, any]) => data.unlocked)
+      const progression = result?.[STORAGE_KEYS.PROGRESSION] as StoredProgression | undefined
+      const exercises = progression?.exercises
+
+      if (exercises) {
+        const unlocked = Object.entries(exercises)
+          .filter(([_id, data]) => Boolean(data?.unlocked))
           .map(([id]) => id)
         resolve(unlocked)
       } else {
@@ -133,11 +149,13 @@ async function getUnlockedExercises(): Promise<string[]> {
 async function getRecentExercises(): Promise<string[]> {
   return new Promise((resolve) => {
     chrome.storage.local.get(STORAGE_KEYS.EXERCISES, (result) => {
-      const exercises = result[STORAGE_KEYS.EXERCISES] || []
+      const exercisesRaw = result?.[STORAGE_KEYS.EXERCISES] as unknown
+      const exercises = Array.isArray(exercisesRaw) ? (exercisesRaw as StoredExerciseEntry[]) : []
       const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000
       const recent = exercises
-        .filter((e: any) => e.timestamp > oneDayAgo)
-        .map((e: any) => e.exerciseId)
+        .filter((e) => typeof e?.timestamp === 'number' && e.timestamp > oneDayAgo)
+        .map((e) => e.exerciseId)
+        .filter((id): id is string => typeof id === 'string' && id.length > 0)
       resolve([...new Set(recent)] as string[])
     })
   })
@@ -327,9 +345,14 @@ async function broadcastActiveTimeUpdate(): Promise<void> {
  * Get the current notifications permission level for this extension
  * Useful for debugging OS/Brave-level notification blocks
  */
-function getNotificationsPermissionLevel(): Promise<chrome.notifications.PermissionLevel> {
+function getNotificationsPermissionLevel(): Promise<NotificationsPermissionLevel> {
   return new Promise((resolve) => {
-    chrome.notifications.getPermissionLevel((level) => resolve(level))
+    if (typeof chrome?.notifications?.getPermissionLevel !== 'function') {
+      resolve('denied')
+      return
+    }
+
+    chrome.notifications.getPermissionLevel((level) => resolve(level as NotificationsPermissionLevel))
   })
 }
 
@@ -337,9 +360,16 @@ function getNotificationsPermissionLevel(): Promise<chrome.notifications.Permiss
  * Get all currently active notifications created by this extension
  * (useful for debugging \"created but not displayed\" scenarios)
  */
-function getActiveNotifications(): Promise<Record<string, chrome.notifications.NotificationOptions>> {
+function getActiveNotifications(): Promise<ActiveNotifications> {
   return new Promise((resolve) => {
-    chrome.notifications.getAll((notifications) => resolve(notifications))
+    if (typeof chrome?.notifications?.getAll !== 'function') {
+      resolve({})
+      return
+    }
+
+    chrome.notifications.getAll((notifications) => {
+      resolve(notifications as unknown as ActiveNotifications)
+    })
   })
 }
 
@@ -603,7 +633,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
  * Brave/Chrome devtools can evaluate expressions in the SW context, but webpack
  * bundles functions into a closure, so we explicitly expose a small API on `self`.
  */
-;(self as unknown as { extFlexDebug?: Record<string, unknown> }).extFlexDebug = {
+DEBUG_TARGET.extFlexDebug = {
   /** Test notification without using runtime messaging */
   testNotification: async () => {
     const level = await getNotificationsPermissionLevel()
