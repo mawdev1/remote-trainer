@@ -16,7 +16,7 @@ import React, {
   ReactNode,
 } from 'react'
 import { ExerciseStats, DailyTotals, ExerciseDefinition } from '@/types'
-import { exerciseStorage } from '@/lib/storage'
+import { exerciseStorage, reminderStorage, streakStorage } from '@/lib/storage'
 import { getDefaultEnabledExercises, getExerciseById } from '@/features/exercises'
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -120,7 +120,24 @@ export const ExerciseStoreProvider: React.FC<ExerciseStoreProviderProps> = ({
   const logExercise = useCallback(async (exerciseId: string, value: number) => {
     if (value <= 0) return
 
+    // Get exercise definition to determine tracking type
+    const exercise = getExerciseById(exerciseId)
+    const trackingType = exercise?.trackingType || 'reps'
+
     await exerciseStorage.logExercise(exerciseId, value)
+    
+    // Add movement minutes
+    await reminderStorage.addMovementMinutes(exerciseId, value, trackingType)
+
+    // Record streak activity
+    await streakStorage.recordActivity()
+
+    // Notify background script that an exercise was logged (resets active time)
+    try {
+      chrome.runtime.sendMessage({ type: 'EXERCISE_LOGGED' })
+    } catch {
+      // Background script might not be ready
+    }
     
     // Trigger animation
     setAnimatingCard(exerciseId)

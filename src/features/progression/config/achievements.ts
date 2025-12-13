@@ -288,6 +288,82 @@ export const ACHIEVEMENTS: Achievement[] = [
     condition: { type: 'specific_level', exerciseId: 'squats', value: 10 },
     xpReward: 150,
   },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // STREAKS
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    id: 'streak_3',
+    name: 'Getting Consistent',
+    description: 'Maintain a 3-day streak',
+    icon: '🔥',
+    category: 'dedication',
+    condition: { type: 'streak', value: 3 },
+    xpReward: 25,
+  },
+  {
+    id: 'streak_7',
+    name: 'Week Warrior',
+    description: 'Maintain a 7-day streak',
+    icon: '🔥',
+    category: 'dedication',
+    condition: { type: 'streak', value: 7 },
+    xpReward: 50,
+  },
+  {
+    id: 'streak_14',
+    name: 'Two Week Champion',
+    description: 'Maintain a 14-day streak',
+    icon: '🔥',
+    category: 'dedication',
+    condition: { type: 'streak', value: 14 },
+    xpReward: 100,
+  },
+  {
+    id: 'streak_30',
+    name: 'Monthly Momentum',
+    description: 'Maintain a 30-day streak',
+    icon: '🔥',
+    category: 'dedication',
+    condition: { type: 'streak', value: 30 },
+    xpReward: 200,
+  },
+  {
+    id: 'streak_60',
+    name: 'Unstoppable Force',
+    description: 'Maintain a 60-day streak',
+    icon: '🔥',
+    category: 'dedication',
+    condition: { type: 'streak', value: 60 },
+    xpReward: 400,
+  },
+  {
+    id: 'streak_90',
+    name: 'Quarterly Quest',
+    description: 'Maintain a 90-day streak',
+    icon: '🔥',
+    category: 'dedication',
+    condition: { type: 'streak', value: 90 },
+    xpReward: 600,
+  },
+  {
+    id: 'streak_180',
+    name: 'Half Year Hero',
+    description: 'Maintain a 180-day streak',
+    icon: '🔥',
+    category: 'dedication',
+    condition: { type: 'streak', value: 180 },
+    xpReward: 1000,
+  },
+  {
+    id: 'streak_365',
+    name: 'Year of Dedication',
+    description: 'Maintain a 365-day streak',
+    icon: '👑',
+    category: 'mastery',
+    condition: { type: 'streak', value: 365 },
+    xpReward: 2000,
+  },
 ]
 
 /**

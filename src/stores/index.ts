@@ -29,3 +29,10 @@ export {
   useTotalProgression,
 } from './ProgressionStore'
 
+export {
+  StreakStoreProvider,
+  useStreakStore,
+  useStreakDisplay,
+  useStreakMilestone,
+} from './StreakStore'
+

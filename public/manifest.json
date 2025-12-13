@@ -16,7 +16,7 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["storage"],
+  "permissions": ["storage", "alarms", "idle", "notifications"],
   "icons": {
     "16": "icons/ext-and-flex-16.png",
     "48": "icons/ext-and-flex-48.png",

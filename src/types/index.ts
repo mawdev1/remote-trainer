@@ -6,4 +6,5 @@
 export * from './exercises'
 export * from './settings'
 export * from './progression'
+export * from './streak'
 

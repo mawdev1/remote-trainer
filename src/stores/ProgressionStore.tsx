@@ -23,7 +23,7 @@ import {
   Achievement,
   UnlockRequirement,
 } from '@/types/progression'
-import { progressionStorage } from '@/lib/storage'
+import { progressionStorage, streakStorage } from '@/lib/storage'
 import {
   UNLOCK_CONFIG,
   getUnlockConfig,
@@ -310,6 +310,11 @@ export const ProgressionStoreProvider: React.FC<ProgressionStoreProviderProps> =
         return mastered >= (condition.value || 1)
       }
       
+      case 'streak':
+        // Streak achievements are checked separately in addXp
+        // This is a placeholder - actual check happens with current streak data
+        return false
+      
       default:
         return false
     }
@@ -444,6 +449,13 @@ export const ProgressionStoreProvider: React.FC<ProgressionStoreProviderProps> =
         case 'multi_max_level': {
           const mastered = Object.values(newData.exercises).filter(p => p.level >= MAX_LEVEL).length
           conditionMet = mastered >= (condition.value || 1)
+          break
+        }
+        
+        case 'streak': {
+          // Get current streak from storage
+          const streakData = await streakStorage.get()
+          conditionMet = streakData.current >= (condition.value || 1)
           break
         }
       }

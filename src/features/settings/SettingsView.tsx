@@ -1,14 +1,14 @@
 /**
  * SettingsView Component
- * Settings page with reset options and app info
+ * Settings page with reminders, reset options and app info
  */
 
 import React, { useState } from 'react'
-import { useExerciseStore, useProgressionStore } from '@/stores'
+import { useExerciseStore, useProgressionStore, useReminderSettings, useSettingsStore } from '@/stores'
 import { EXERCISE_REGISTRY } from '@/features/exercises'
 import { ACHIEVEMENTS, ACHIEVEMENT_CATEGORIES } from '@/features/progression'
 import { useTheme } from '@/components/theme/ThemeProvider'
-import { BACKGROUND_OPTIONS, BackgroundStyle } from '@/types'
+import { BACKGROUND_OPTIONS, REMINDER_INTERVAL_OPTIONS, ReminderInterval } from '@/types'
 
 type ConfirmAction = 'progress' | 'history' | 'all' | null
 
@@ -16,9 +16,12 @@ export const SettingsView: React.FC = () => {
   const [confirmAction, setConfirmAction] = useState<ConfirmAction>(null)
   const [isResetting, setIsResetting] = useState(false)
   const [showAchievements, setShowAchievements] = useState(false)
+  const [notificationTestResult, setNotificationTestResult] = useState<string | null>(null)
   const { clearHistory } = useExerciseStore()
   const { resetProgression, data, isAchievementUnlocked } = useProgressionStore()
   const { background, setBackground } = useTheme()
+  const { reminders, updateReminders } = useReminderSettings()
+  const { settings, updateSection } = useSettingsStore()
 
   const handleReset = async (action: ConfirmAction) => {
     if (!action) return
@@ -64,6 +67,214 @@ export const SettingsView: React.FC = () => {
 
   return (
     <div className="settings-view">
+      {/* Break Reminders */}
+      <div className="settings-section">
+        <h3 className="settings-section-title">⏰ Break Reminders</h3>
+        
+        {/* Enable/Disable Toggle */}
+        <div className="setting-row">
+          <div className="setting-info">
+            <span className="setting-label">Enable Reminders</span>
+            <span className="setting-desc">Get notified to take exercise breaks</span>
+          </div>
+          <button
+            className={`toggle-btn ${reminders.enabled ? 'active' : ''}`}
+            onClick={() => {
+              updateReminders({ enabled: !reminders.enabled })
+              // Notify background script
+              chrome.runtime.sendMessage({ type: 'SETTINGS_UPDATED' })
+            }}
+            aria-label={reminders.enabled ? 'Disable reminders' : 'Enable reminders'}
+          >
+            <span className="toggle-slider" />
+          </button>
+        </div>
+
+        {reminders.enabled && (
+          <>
+            {/* Interval Selection */}
+            <div className="setting-row">
+              <div className="setting-info">
+                <span className="setting-label">Reminder Interval</span>
+                <span className="setting-desc">How often to remind you</span>
+              </div>
+              <select
+                className="setting-select"
+                value={reminders.intervalMinutes}
+                onChange={(e) => {
+                  updateReminders({ intervalMinutes: Number(e.target.value) as ReminderInterval })
+                  chrome.runtime.sendMessage({ type: 'SETTINGS_UPDATED' })
+                }}
+              >
+                {REMINDER_INTERVAL_OPTIONS.map((minutes) => (
+                  <option key={minutes} value={minutes}>
+                    {minutes} min
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Active Time Tracking */}
+            <div className="setting-row">
+              <div className="setting-info">
+                <span className="setting-label">Smart Time Tracking</span>
+                <span className="setting-desc">Only count active browsing time</span>
+              </div>
+              <button
+                className={`toggle-btn ${reminders.useActiveTimeTracking ? 'active' : ''}`}
+                onClick={() => {
+                  updateReminders({ useActiveTimeTracking: !reminders.useActiveTimeTracking })
+                  chrome.runtime.sendMessage({ type: 'SETTINGS_UPDATED' })
+                }}
+              >
+                <span className="toggle-slider" />
+              </button>
+            </div>
+
+            {/* Smart Suggestions */}
+            <div className="setting-row">
+              <div className="setting-info">
+                <span className="setting-label">Smart Suggestions</span>
+                <span className="setting-desc">Suggest exercises based on history</span>
+              </div>
+              <button
+                className={`toggle-btn ${reminders.smartSuggestions ? 'active' : ''}`}
+                onClick={() => {
+                  updateReminders({ smartSuggestions: !reminders.smartSuggestions })
+                }}
+              >
+                <span className="toggle-slider" />
+              </button>
+            </div>
+
+            {/* Sound Toggle */}
+            <div className="setting-row">
+              <div className="setting-info">
+                <span className="setting-label">Notification Sound</span>
+                <span className="setting-desc">Play sound with reminders</span>
+              </div>
+              <button
+                className={`toggle-btn ${reminders.soundEnabled ? 'active' : ''}`}
+                onClick={() => {
+                  updateReminders({ soundEnabled: !reminders.soundEnabled })
+                }}
+              >
+                <span className="toggle-slider" />
+              </button>
+            </div>
+
+            {/* Quiet Hours */}
+            <div className="setting-row quiet-hours">
+              <div className="setting-info">
+                <span className="setting-label">Quiet Hours</span>
+                <span className="setting-desc">No reminders during these hours</span>
+              </div>
+              <div className="quiet-hours-inputs">
+                <select
+                  className="setting-select small"
+                  value={reminders.quietHoursStart ?? ''}
+                  onChange={(e) => {
+                    const value = e.target.value === '' ? null : Number(e.target.value)
+                    updateReminders({ 
+                      quietHoursStart: value,
+                      quietHoursEnd: value === null ? null : (reminders.quietHoursEnd ?? 7)
+                    })
+                  }}
+                >
+                  <option value="">Off</option>
+                  {Array.from({ length: 24 }, (_, i) => (
+                    <option key={i} value={i}>
+                      {i.toString().padStart(2, '0')}:00
+                    </option>
+                  ))}
+                </select>
+                {reminders.quietHoursStart !== null && (
+                  <>
+                    <span className="quiet-hours-separator">to</span>
+                    <select
+                      className="setting-select small"
+                      value={reminders.quietHoursEnd ?? 7}
+                      onChange={(e) => {
+                        updateReminders({ quietHoursEnd: Number(e.target.value) })
+                      }}
+                    >
+                      {Array.from({ length: 24 }, (_, i) => (
+                        <option key={i} value={i}>
+                          {i.toString().padStart(2, '0')}:00
+                        </option>
+                      ))}
+                    </select>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Test Notification (debug) */}
+            <div className="setting-row">
+              <div className="setting-info">
+                <span className="setting-label">Test Notification</span>
+                <span className="setting-desc">
+                  Sends a test desktop notification and reports permission state
+                </span>
+                {notificationTestResult && (
+                  <span className="setting-desc">{notificationTestResult}</span>
+                )}
+              </div>
+              <button
+                className="reset-btn warning"
+                onClick={async () => {
+                  setNotificationTestResult('Testing...')
+                  try {
+                    const response = await chrome.runtime.sendMessage({ type: 'TEST_NOTIFICATION' })
+                    const level = response?.level || 'unknown'
+                    if (response?.success) {
+                      const createdId = response?.createdId || 'unknown'
+                      const activeCount = response?.activeCount ?? 'unknown'
+                      setNotificationTestResult(
+                        `Sent. Permission: ${level}. Created: ${createdId}. Active: ${activeCount}`
+                      )
+                    } else {
+                      setNotificationTestResult(
+                        `Failed. Permission: ${level}. Error: ${response?.error || 'unknown'}`
+                      )
+                    }
+                  } catch (error) {
+                    setNotificationTestResult(`Failed to contact background: ${String(error)}`)
+                  }
+                }}
+              >
+                Send Test
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Movement Goal */}
+      <div className="settings-section">
+        <h3 className="settings-section-title">🏃 Movement Minutes Goal</h3>
+        
+        <div className="setting-row">
+          <div className="setting-info">
+            <span className="setting-label">Daily Goal</span>
+            <span className="setting-desc">Minutes of movement per day</span>
+          </div>
+          <select
+            className="setting-select"
+            value={settings.movementGoal.dailyGoalMinutes}
+            onChange={(e) => {
+              updateSection('movementGoal', { dailyGoalMinutes: Number(e.target.value) })
+            }}
+          >
+            {[10, 15, 20, 30, 45, 60, 90].map((minutes) => (
+              <option key={minutes} value={minutes}>
+                {minutes} min
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
       {/* Background Selection */}
       <div className="settings-section">
         <h3 className="settings-section-title">🎨 Background</h3>

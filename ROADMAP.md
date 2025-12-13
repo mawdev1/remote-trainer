@@ -42,7 +42,7 @@ Check off features as they're completed: `- [x]`
 ## 1. Smart Break Reminders
 
 ### 1.1 Basic Reminder System
-- [ ] **Customizable reminder intervals**
+- [x] **Customizable reminder intervals**
   
   **Description**: Allow users to set how often they want to be reminded to take a break and exercise. Options like every 30, 45, 60, or 90 minutes.
   
@@ -55,7 +55,7 @@ Check off features as they're completed: `- [x]`
   **UI Notes**: Settings panel with dropdown or slider for interval selection.
 
 ### 1.2 Active Time Tracking
-- [ ] **Track active browsing time**
+- [x] **Track active browsing time**
   
   **Description**: Monitor how long the user has been actively browsing (not idle) and trigger reminders based on activity rather than just clock time.
   
@@ -68,7 +68,7 @@ Check off features as they're completed: `- [x]`
   **UI Notes**: Show "Active for 45 min" indicator in popup header.
 
 ### 1.3 Smart Notification Content
-- [ ] **Contextual exercise suggestions in notifications**
+- [x] **Contextual exercise suggestions in notifications**
   
   **Description**: When a reminder fires, suggest a specific exercise based on what the user hasn't done recently or what fits their current streak.
   
@@ -80,7 +80,7 @@ Check off features as they're completed: `- [x]`
   **UI Notes**: "Time for a break! How about 15 squats? [Log] [Snooze]"
 
 ### 1.4 Movement Minutes Goal
-- [ ] **Daily movement minutes tracking**
+- [x] **Daily movement minutes tracking**
   
   **Description**: Track total "active minutes" per day (time spent exercising or on breaks) with a configurable daily goal.
   
@@ -289,7 +289,7 @@ Check off features as they're completed: `- [x]`
 ## 4. Streak System
 
 ### 4.1 Daily Streak Counter
-- [ ] **Track consecutive days of exercise**
+- [x] **Track consecutive days of exercise**
   
   **Description**: Count how many days in a row the user has logged at least one exercise.
   
@@ -302,7 +302,7 @@ Check off features as they're completed: `- [x]`
   **UI Notes**: "🔥 7 day streak" displayed prominently in header or stats.
 
 ### 4.2 Streak Visuals
-- [ ] **Animated streak indicator**
+- [x] **Animated streak indicator**
   
   **Description**: Visual flame/fire that grows more impressive with longer streaks.
   
@@ -316,7 +316,7 @@ Check off features as they're completed: `- [x]`
   **UI Notes**: Animated flame icon next to streak number.
 
 ### 4.3 Streak Protection
-- [ ] **Streak freeze / rest day**
+- [x] **Streak freeze / rest day**
   
   **Description**: Allow users to take a planned rest day without breaking their streak (limited uses).
   
@@ -329,7 +329,7 @@ Check off features as they're completed: `- [x]`
   **UI Notes**: "Rest day" button with freeze count indicator.
 
 ### 4.4 Streak Milestones
-- [ ] **Celebrate streak milestones**
+- [x] **Celebrate streak milestones**
   
   **Description**: Special celebration when hitting streak milestones (7, 14, 30, 60, 90, 180, 365 days).
   
