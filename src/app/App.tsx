@@ -10,7 +10,7 @@ import React, { useState } from 'react'
 
 // Providers
 import { ThemeProvider } from '@/components/theme/ThemeProvider'
-import { ExerciseStoreProvider, ProgressionStoreProvider, SettingsStoreProvider } from '@/stores'
+import { ExerciseStoreProvider, ProgressionStoreProvider, SettingsStoreProvider, StreakStoreProvider } from '@/stores'
 
 // Common components
 import { Header, Footer, ViewToggle, ViewMode } from '@/components/common'
@@ -28,11 +28,13 @@ const App: React.FC = () => {
   return (
     <ThemeProvider>
       <SettingsStoreProvider>
-        <ProgressionStoreProvider>
-          <ExerciseStoreProvider>
-            <TrainerApp />
-          </ExerciseStoreProvider>
-        </ProgressionStoreProvider>
+        <StreakStoreProvider>
+          <ProgressionStoreProvider>
+            <ExerciseStoreProvider>
+              <TrainerApp />
+            </ExerciseStoreProvider>
+          </ProgressionStoreProvider>
+        </StreakStoreProvider>
       </SettingsStoreProvider>
     </ThemeProvider>
   )

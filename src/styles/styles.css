@@ -2159,3 +2159,391 @@ body.bg-waves.dark::after {
     stroke-dasharray: 0, 100;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   STREAK SYSTEM
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Streak Stat in Progress Header */
+.streak-stat {
+  position: relative;
+}
+
+.streak-stat.at-risk {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.streak-stat.at-risk:hover {
+  border-color: rgba(245, 158, 11, 0.6);
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.streak-stat.active-today {
+  border-color: rgba(34, 197, 94, 0.4);
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.streak-stat.active-today:hover {
+  border-color: rgba(34, 197, 94, 0.6);
+  background: rgba(34, 197, 94, 0.12);
+}
+
+/* Flame Icon */
+.streak-flame-empty {
+  font-size: 1.25rem;
+  opacity: 0.3;
+  filter: grayscale(100%);
+}
+
+.streak-flame {
+  font-size: 1.25rem;
+  display: inline-block;
+}
+
+/* Small flame (1-6 days) */
+.streak-flame-1 {
+  animation: flame-small 1.5s ease-in-out infinite;
+}
+
+/* Medium flame (7-13 days) */
+.streak-flame-2 {
+  animation: flame-medium 1.2s ease-in-out infinite;
+  filter: drop-shadow(0 0 3px rgba(255, 100, 0, 0.4));
+}
+
+/* Large flame (14-29 days) */
+.streak-flame-3 {
+  animation: flame-large 1s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(255, 100, 0, 0.6));
+}
+
+/* Epic flame (30+ days) */
+.streak-flame-4 {
+  animation: flame-epic 0.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 50, 0, 0.8));
+}
+
+@keyframes flame-small {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+  }
+  50% { 
+    transform: scale(1.05) rotate(2deg);
+  }
+}
+
+@keyframes flame-medium {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+  }
+  25% { 
+    transform: scale(1.1) rotate(-3deg);
+  }
+  50% { 
+    transform: scale(1.05) rotate(3deg);
+  }
+  75% { 
+    transform: scale(1.1) rotate(-2deg);
+  }
+}
+
+@keyframes flame-large {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg);
+  }
+  20% { 
+    transform: scale(1.15) rotate(-4deg);
+  }
+  40% { 
+    transform: scale(1.1) rotate(4deg);
+  }
+  60% { 
+    transform: scale(1.15) rotate(-3deg);
+  }
+  80% { 
+    transform: scale(1.1) rotate(3deg);
+  }
+}
+
+@keyframes flame-epic {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg) translateY(0);
+  }
+  15% { 
+    transform: scale(1.2) rotate(-5deg) translateY(-2px);
+  }
+  30% { 
+    transform: scale(1.15) rotate(5deg) translateY(-1px);
+  }
+  45% { 
+    transform: scale(1.25) rotate(-4deg) translateY(-3px);
+  }
+  60% { 
+    transform: scale(1.15) rotate(4deg) translateY(-1px);
+  }
+  75% { 
+    transform: scale(1.2) rotate(-3deg) translateY(-2px);
+  }
+}
+
+/* Streak Modal */
+.streak-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  width: 90%;
+  max-width: 400px;
+  z-index: 1001;
+  animation: dialog-pop 0.3s ease-out;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.streak-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.streak-modal-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.streak-modal-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: var(--bg-primary);
+  color: var(--text-muted);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.streak-modal-close:hover {
+  background: var(--accent-primary);
+  color: white;
+}
+
+.streak-modal-content {
+  padding: 24px;
+}
+
+/* Current Streak Display */
+.streak-current {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.streak-current-number {
+  display: block;
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffcc33 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.streak-current-label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* Status Indicator */
+.streak-status {
+  text-align: center;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+}
+
+.streak-status.active {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+}
+
+.streak-status.at-risk {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: #f59e0b;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.streak-status.frozen {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #3b82f6;
+}
+
+/* Streak Stats */
+.streak-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.streak-stat-item {
+  text-align: center;
+  padding: 16px;
+  background: var(--bg-primary);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.streak-stat-item .streak-stat-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.streak-stat-item .streak-stat-label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
+/* Freeze Section */
+.streak-freeze-section {
+  text-align: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+  margin-bottom: 16px;
+}
+
+.streak-freeze-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0 0 12px 0;
+}
+
+.streak-freeze-btn {
+  padding: 12px 24px;
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.streak-freeze-btn:hover:not(:disabled) {
+  background: #3b82f6;
+  color: white;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.streak-freeze-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.streak-freeze-error {
+  font-size: 0.75rem;
+  color: #ef4444;
+  margin: 8px 0 0 0;
+}
+
+/* Milestone Section */
+.streak-milestone-section {
+  text-align: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.streak-milestone-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* Streak Milestone Celebration */
+.streak-milestone-toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-secondary);
+  border: 2px solid #ff6b35;
+  border-radius: 24px;
+  padding: 40px;
+  text-align: center;
+  z-index: 1002;
+  animation: dialog-pop 0.4s ease-out;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4), 0 0 60px rgba(255, 107, 53, 0.3);
+  min-width: 320px;
+}
+
+.streak-milestone-icon {
+  font-size: 5rem;
+  margin-bottom: 16px;
+  display: block;
+  animation: bounce 0.6s ease-out;
+}
+
+.streak-milestone-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffcc33 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px 0;
+}
+
+.streak-milestone-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0 0 24px 0;
+}
+
+.streak-milestone-btn {
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+}
+
+.streak-milestone-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(255, 107, 53, 0.5);
+}

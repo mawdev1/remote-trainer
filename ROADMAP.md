@@ -289,7 +289,7 @@ Check off features as they're completed: `- [x]`
 ## 4. Streak System
 
 ### 4.1 Daily Streak Counter
-- [ ] **Track consecutive days of exercise**
+- [x] **Track consecutive days of exercise**
   
   **Description**: Count how many days in a row the user has logged at least one exercise.
   
@@ -302,7 +302,7 @@ Check off features as they're completed: `- [x]`
   **UI Notes**: "🔥 7 day streak" displayed prominently in header or stats.
 
 ### 4.2 Streak Visuals
-- [ ] **Animated streak indicator**
+- [x] **Animated streak indicator**
   
   **Description**: Visual flame/fire that grows more impressive with longer streaks.
   
@@ -316,7 +316,7 @@ Check off features as they're completed: `- [x]`
   **UI Notes**: Animated flame icon next to streak number.
 
 ### 4.3 Streak Protection
-- [ ] **Streak freeze / rest day**
+- [x] **Streak freeze / rest day**
   
   **Description**: Allow users to take a planned rest day without breaking their streak (limited uses).
   
@@ -329,7 +329,7 @@ Check off features as they're completed: `- [x]`
   **UI Notes**: "Rest day" button with freeze count indicator.
 
 ### 4.4 Streak Milestones
-- [ ] **Celebrate streak milestones**
+- [x] **Celebrate streak milestones**
   
   **Description**: Special celebration when hitting streak milestones (7, 14, 30, 60, 90, 180, 365 days).
   

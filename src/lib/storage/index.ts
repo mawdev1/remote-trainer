@@ -19,3 +19,6 @@ export { progressionStorage } from './progression-storage'
 // Reminder storage
 export { reminderStorage } from './reminder-storage'
 
+// Streak storage
+export { streakStorage } from './streak-storage'
+

@@ -16,7 +16,7 @@ import React, {
   ReactNode,
 } from 'react'
 import { ExerciseStats, DailyTotals, ExerciseDefinition } from '@/types'
-import { exerciseStorage, reminderStorage } from '@/lib/storage'
+import { exerciseStorage, reminderStorage, streakStorage } from '@/lib/storage'
 import { getDefaultEnabledExercises, getExerciseById } from '@/features/exercises'
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -128,6 +128,9 @@ export const ExerciseStoreProvider: React.FC<ExerciseStoreProviderProps> = ({
     
     // Add movement minutes
     await reminderStorage.addMovementMinutes(exerciseId, value, trackingType)
+
+    // Record streak activity
+    await streakStorage.recordActivity()
 
     // Notify background script that an exercise was logged (resets active time)
     try {
