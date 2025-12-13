@@ -119,7 +119,7 @@ describe('Date Utilities', () => {
 
   describe('toISODateString', () => {
     it('should return YYYY-MM-DD format', () => {
-      const date = new Date('2024-01-15T14:30:00Z')
+      const date = new Date(2024, 0, 15, 14, 30, 0)
       const result = toISODateString(date)
       
       expect(result).toBe('2024-01-15')

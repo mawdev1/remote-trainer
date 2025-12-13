@@ -16,13 +16,13 @@ export interface StreakData {
   current: number
   /** Longest streak ever achieved */
   longest: number
-  /** ISO date string of last active day (YYYY-MM-DD) */
+  /** Local ISO date key of last active day (YYYY-MM-DD) */
   lastActiveDate: string | null
   /** Number of streak freezes remaining this week */
   freezesRemaining: number
-  /** ISO date string of when freezes were last reset */
+  /** Local ISO date key of when freezes were last reset */
   freezesResetDate: string | null
-  /** Array of dates where freezes were used (ISO strings) */
+  /** Array of dates where freezes were used (local ISO date keys) */
   frozenDates: string[]
   /** Timestamp when streak system was initialized */
   startedAt?: number
