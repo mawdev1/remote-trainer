@@ -255,3 +255,4 @@ Security:
 - Whether XP should be purely derived from workouts or also allow “bonus/adjustments” (ledger vs computed)
 - Whether to maintain a denormalized `xp_totals` for performance
 - Conflict resolution rules if multiple devices edit the same workout offline
+

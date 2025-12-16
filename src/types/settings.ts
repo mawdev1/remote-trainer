@@ -5,6 +5,8 @@
 
 export type ThemeMode = 'light' | 'dark' | 'system'
 
+export type WeightUnit = 'lbs' | 'kg'
+
 export type BackgroundStyle = 'minimal' | 'aurora' | 'gradient' | 'cosmos' | 'waves'
 
 export const BACKGROUND_OPTIONS: { id: BackgroundStyle; name: string; description: string }[] = [
@@ -92,6 +94,8 @@ export interface AppSettings {
   display: DisplaySettings
   exercises: ExerciseSettings
   movementGoal: MovementGoalSettings
+  /** Weight unit preference for weighted exercises */
+  weightUnit: WeightUnit
 }
 
 /**
@@ -125,5 +129,6 @@ export const DEFAULT_SETTINGS: AppSettings = {
     enabled: true,
     dailyGoalMinutes: 30,
   },
+  weightUnit: 'lbs',
 }
 

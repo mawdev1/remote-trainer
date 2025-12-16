@@ -40,6 +40,8 @@ export interface ExerciseDefinition {
   defaultQuickOptions: number[]
   /** Whether this exercise is enabled by default */
   enabledByDefault: boolean
+  /** Whether this exercise requires weight input (e.g., dumbbell exercises) */
+  requiresWeight?: boolean
 }
 
 /**
@@ -57,6 +59,8 @@ export interface ExerciseEntry {
   timestamp: number
   /** Optional session grouping ID */
   sessionId?: string
+  /** Weight used in user's preferred unit (lbs/kg) - for weighted exercises */
+  weight?: number
 }
 
 /**
@@ -80,5 +84,31 @@ export interface DailyTotals {
   dateISO: string
   /** Totals per exercise ID */
   totals: Record<string, number>
+}
+
+/**
+ * Personal Best record for a single achievement
+ */
+export interface PersonalBest {
+  /** The value achieved (reps or duration) */
+  value: number
+  /** When this PB was achieved */
+  timestamp: number
+  /** Weight used (for weighted exercises only) */
+  weight?: number
+}
+
+/**
+ * Personal Best storage for an exercise
+ * For non-weighted exercises: stores a single PB
+ * For weighted exercises: stores PBs keyed by weight level
+ */
+export interface ExercisePersonalBests {
+  /** Exercise ID this record belongs to */
+  exerciseId: string
+  /** Single PB for non-weighted exercises */
+  pb?: PersonalBest
+  /** PBs per weight level for weighted exercises (key is weight as string) */
+  weightedPbs?: Record<string, PersonalBest>
 }
 

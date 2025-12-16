@@ -836,13 +836,15 @@ body.dark .app-logo-wrap {
 
 .exercise-stats {
   display: flex;
-  gap: 16px;
+  justify-content: space-around;
   margin-bottom: 14px;
 }
 
 .stat-item {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .stat-value {
@@ -924,6 +926,110 @@ body.dark .app-logo-wrap {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+}
+
+.quick-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* PB Display */
+.pb-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--bg-primary);
+  border-radius: 10px;
+  margin-bottom: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+}
+
+.pb-icon {
+  font-size: 0.9rem;
+}
+
+.pb-label {
+  color: var(--text-muted);
+}
+
+.pb-value {
+  flex: 1;
+}
+
+.pb-new-badge {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+/* PB Celebration */
+.exercise-card.pb-celebration {
+  animation: pb-glow 0.5s ease-out;
+  border-color: #fbbf24;
+}
+
+@keyframes pb-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 30px 10px rgba(251, 191, 36, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
+  }
+}
+
+/* Weight Input Row */
+.weight-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-primary);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  border: 1px solid var(--border-color);
+}
+
+.weight-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.weight-input {
+  flex: 1;
+  min-width: 60px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.weight-input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px var(--glow-primary);
+}
+
+.weight-input::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
 }
 
 /* Custom rep input */

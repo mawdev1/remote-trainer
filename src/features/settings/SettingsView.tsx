@@ -4,11 +4,11 @@
  */
 
 import React, { useState } from 'react'
-import { useExerciseStore, useProgressionStore, useReminderSettings, useSettingsStore } from '@/stores'
+import { useExerciseStore, useProgressionStore, useReminderSettings, useSettingsStore, useWeightSettings } from '@/stores'
 import { EXERCISE_REGISTRY } from '@/features/exercises'
 import { ACHIEVEMENTS, ACHIEVEMENT_CATEGORIES } from '@/features/progression'
 import { useTheme } from '@/components/theme/ThemeProvider'
-import { BACKGROUND_OPTIONS, REMINDER_INTERVAL_OPTIONS, ReminderInterval } from '@/types'
+import { BACKGROUND_OPTIONS, REMINDER_INTERVAL_OPTIONS, ReminderInterval, WeightUnit } from '@/types'
 
 type ConfirmAction = 'progress' | 'history' | 'all' | null
 
@@ -22,6 +22,7 @@ export const SettingsView: React.FC = () => {
   const { background, setBackground } = useTheme()
   const { reminders, updateReminders } = useReminderSettings()
   const { settings, updateSection } = useSettingsStore()
+  const { weightUnit, updateWeightUnit } = useWeightSettings()
 
   const handleReset = async (action: ConfirmAction) => {
     if (!action) return
@@ -271,6 +272,28 @@ export const SettingsView: React.FC = () => {
                 {minutes} min
               </option>
             ))}
+          </select>
+        </div>
+      </div>
+
+      {/* Weight Unit */}
+      <div className="settings-section">
+        <h3 className="settings-section-title">🏋️ Weight Settings</h3>
+        
+        <div className="setting-row">
+          <div className="setting-info">
+            <span className="setting-label">Weight Unit</span>
+            <span className="setting-desc">Unit for dumbbell exercises</span>
+          </div>
+          <select
+            className="setting-select"
+            value={weightUnit}
+            onChange={(e) => {
+              updateWeightUnit(e.target.value as WeightUnit)
+            }}
+          >
+            <option value="lbs">Pounds (lbs)</option>
+            <option value="kg">Kilograms (kg)</option>
           </select>
         </div>
       </div>

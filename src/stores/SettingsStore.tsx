@@ -185,3 +185,15 @@ export function useDisplaySettings() {
   }
 }
 
+/**
+ * Access weight unit settings
+ */
+export function useWeightSettings() {
+  const { settings, updateSettings } = useSettingsStore()
+  return {
+    weightUnit: settings.weightUnit,
+    updateWeightUnit: (unit: AppSettings['weightUnit']) =>
+      updateSettings({ weightUnit: unit }),
+  }
+}
+

@@ -75,6 +75,7 @@ export const EXERCISE_REGISTRY: ExerciseDefinition[] = [
     colorEnd: '#2563eb',
     defaultQuickOptions: [8, 10, 12, 15, 20],
     enabledByDefault: false,
+    requiresWeight: true,
   },
   // Cardio - High Knees
   {
@@ -163,6 +164,7 @@ export const EXERCISE_REGISTRY: ExerciseDefinition[] = [
     colorEnd: '#0284c7',
     defaultQuickOptions: [8, 10, 12, 15, 20],
     enabledByDefault: false,
+    requiresWeight: true,
   },
   // Cardio - Jump Squats
   {
@@ -251,6 +253,7 @@ export const EXERCISE_REGISTRY: ExerciseDefinition[] = [
     colorEnd: '#047857',
     defaultQuickOptions: [8, 10, 12, 15, 20],
     enabledByDefault: false,
+    requiresWeight: true,
   },
   // Cardio - Butt Kicks
   {
@@ -295,6 +298,7 @@ export const EXERCISE_REGISTRY: ExerciseDefinition[] = [
     colorEnd: '#7c3aed',
     defaultQuickOptions: [8, 10, 12, 15, 20],
     enabledByDefault: false,
+    requiresWeight: true,
   },
   // Cardio - Jump Lunges
   {
@@ -339,6 +343,7 @@ export const EXERCISE_REGISTRY: ExerciseDefinition[] = [
     colorEnd: '#0e7490',
     defaultQuickOptions: [10, 12, 16, 20, 24],
     enabledByDefault: false,
+    requiresWeight: true,
   },
   // Cardio - Skaters
   {
@@ -383,6 +388,7 @@ export const EXERCISE_REGISTRY: ExerciseDefinition[] = [
     colorEnd: '#b91c1c',
     defaultQuickOptions: [8, 10, 12, 15, 20],
     enabledByDefault: false,
+    requiresWeight: true,
   },
   // Cardio - Tuck Jumps
   {
@@ -471,6 +477,7 @@ export const EXERCISE_REGISTRY: ExerciseDefinition[] = [
     colorEnd: '#57534e',
     defaultQuickOptions: [8, 10, 12, 15, 20],
     enabledByDefault: false,
+    requiresWeight: true,
   },
   // Unlocked at 10,000 total XP - Lateral Raises
   {
@@ -484,6 +491,7 @@ export const EXERCISE_REGISTRY: ExerciseDefinition[] = [
     colorEnd: '#14b8a6',
     defaultQuickOptions: [8, 10, 12, 15, 20],
     enabledByDefault: false,
+    requiresWeight: true,
   },
   // Unlocked at 15,000 total XP - Hammer Curls
   {
@@ -497,6 +505,7 @@ export const EXERCISE_REGISTRY: ExerciseDefinition[] = [
     colorEnd: '#737373',
     defaultQuickOptions: [8, 10, 12, 15, 20],
     enabledByDefault: false,
+    requiresWeight: true,
   },
   // Unlocked at 20,000 total XP - Overhead Tricep Extension
   {
@@ -510,6 +519,7 @@ export const EXERCISE_REGISTRY: ExerciseDefinition[] = [
     colorEnd: '#f97316',
     defaultQuickOptions: [8, 10, 12, 15, 20],
     enabledByDefault: false,
+    requiresWeight: true,
   },
   // Unlocked at 25,000 total XP - Dumbbell Flyes
   {
@@ -523,6 +533,7 @@ export const EXERCISE_REGISTRY: ExerciseDefinition[] = [
     colorEnd: '#a855f7',
     defaultQuickOptions: [8, 10, 12, 15, 20],
     enabledByDefault: false,
+    requiresWeight: true,
   },
   // Unlocked at 30,000 total XP - Wall Sit
   {

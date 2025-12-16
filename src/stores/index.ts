@@ -9,6 +9,8 @@ export {
   useExerciseStats,
   useTotalStats,
   useExerciseHistory,
+  usePersonalBests,
+  useLastPBResult,
 } from './ExerciseStore'
 
 export {
@@ -19,6 +21,7 @@ export {
   useReminderSettings,
   useGoalSettings,
   useDisplaySettings,
+  useWeightSettings,
 } from './SettingsStore'
 
 export {

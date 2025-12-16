@@ -22,3 +22,7 @@ export { reminderStorage } from './reminder-storage'
 // Streak storage
 export { streakStorage } from './streak-storage'
 
+// Personal Best storage
+export { pbStorage } from './pb-storage'
+export type { PBCheckResult } from './pb-storage'
+

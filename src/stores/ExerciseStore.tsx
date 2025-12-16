@@ -15,8 +15,8 @@ import React, {
   useMemo,
   ReactNode,
 } from 'react'
-import { ExerciseStats, DailyTotals, ExerciseDefinition } from '@/types'
-import { exerciseStorage, reminderStorage, streakStorage } from '@/lib/storage'
+import { ExerciseStats, DailyTotals, ExerciseDefinition, ExercisePersonalBests } from '@/types'
+import { exerciseStorage, reminderStorage, streakStorage, pbStorage, PBCheckResult } from '@/lib/storage'
 import { getDefaultEnabledExercises, getExerciseById } from '@/features/exercises'
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -40,17 +40,23 @@ interface ExerciseStoreState {
   animatingCard: string | null
   /** List of enabled exercises */
   enabledExercises: ExerciseDefinition[]
+  /** Personal bests for all exercises */
+  personalBests: Record<string, ExercisePersonalBests>
+  /** Last PB check result (for showing celebration) */
+  lastPBResult: { exerciseId: string; result: PBCheckResult } | null
 }
 
 interface ExerciseStoreActions {
-  /** Log a new exercise */
-  logExercise: (exerciseId: string, value: number) => Promise<void>
+  /** Log a new exercise (with optional weight for weighted exercises) */
+  logExercise: (exerciseId: string, value: number, weight?: number) => Promise<PBCheckResult>
   /** Refresh all data from storage */
   refresh: () => Promise<void>
   /** Clear all exercise history */
   clearHistory: () => Promise<void>
   /** Get exercise definition by ID */
   getExercise: (id: string) => ExerciseDefinition | undefined
+  /** Clear the last PB result (after showing celebration) */
+  clearLastPBResult: () => void
 }
 
 type ExerciseStoreContextValue = ExerciseStoreState & ExerciseStoreActions
@@ -83,6 +89,8 @@ export const ExerciseStoreProvider: React.FC<ExerciseStoreProviderProps> = ({
   const [weekTotals, setWeekTotals] = useState<ExerciseStats>({ totalValue: 0, setCount: 0 })
   const [history, setHistory] = useState<DailyTotals[]>([])
   const [animatingCard, setAnimatingCard] = useState<string | null>(null)
+  const [personalBests, setPersonalBests] = useState<Record<string, ExercisePersonalBests>>({})
+  const [lastPBResult, setLastPBResult] = useState<{ exerciseId: string; result: PBCheckResult } | null>(null)
 
   // Get enabled exercises
   const enabledExercises = useMemo(() => getDefaultEnabledExercises(), [])
@@ -91,12 +99,13 @@ export const ExerciseStoreProvider: React.FC<ExerciseStoreProviderProps> = ({
   // Load all data from storage
   const loadData = useCallback(async () => {
     try {
-      const [today, week, dailyHistory, todayTotal, weekTotal] = await Promise.all([
+      const [today, week, dailyHistory, todayTotal, weekTotal, pbs] = await Promise.all([
         exerciseStorage.getTodayStats(enabledIds),
         exerciseStorage.getWeekStats(enabledIds),
         exerciseStorage.getDailyTotals(historyDays, enabledIds),
         exerciseStorage.getTodayTotals(),
         exerciseStorage.getWeekTotals(),
+        pbStorage.getAllPersonalBests(),
       ])
 
       setTodayStats(today)
@@ -104,6 +113,7 @@ export const ExerciseStoreProvider: React.FC<ExerciseStoreProviderProps> = ({
       setHistory(dailyHistory)
       setTodayTotals(todayTotal)
       setWeekTotals(weekTotal)
+      setPersonalBests(pbs)
     } catch (error) {
       console.error('Failed to load exercise data:', error)
     } finally {
@@ -117,14 +127,23 @@ export const ExerciseStoreProvider: React.FC<ExerciseStoreProviderProps> = ({
   }, [loadData])
 
   // Log exercise action
-  const logExercise = useCallback(async (exerciseId: string, value: number) => {
-    if (value <= 0) return
+  const logExercise = useCallback(async (exerciseId: string, value: number, weight?: number): Promise<PBCheckResult> => {
+    if (value <= 0) return { isNewPB: false }
 
     // Get exercise definition to determine tracking type
     const exercise = getExerciseById(exerciseId)
     const trackingType = exercise?.trackingType || 'reps'
 
-    await exerciseStorage.logExercise(exerciseId, value)
+    // Log the exercise with optional weight
+    await exerciseStorage.logExercise(exerciseId, value, { weight })
+    
+    // Check for personal best
+    const pbResult = await pbStorage.checkAndUpdatePB(exerciseId, value, weight)
+    
+    // Store the PB result for celebration display
+    if (pbResult.isNewPB) {
+      setLastPBResult({ exerciseId, result: pbResult })
+    }
     
     // Add movement minutes
     await reminderStorage.addMovementMinutes(exerciseId, value, trackingType)
@@ -145,6 +164,8 @@ export const ExerciseStoreProvider: React.FC<ExerciseStoreProviderProps> = ({
     
     // Refresh data
     await loadData()
+    
+    return pbResult
   }, [loadData])
 
   // Clear history action
@@ -155,6 +176,11 @@ export const ExerciseStoreProvider: React.FC<ExerciseStoreProviderProps> = ({
 
   // Get exercise helper
   const getExercise = useCallback((id: string) => getExerciseById(id), [])
+
+  // Clear last PB result (after showing celebration)
+  const clearLastPBResult = useCallback(() => {
+    setLastPBResult(null)
+  }, [])
 
   // Context value
   const value = useMemo<ExerciseStoreContextValue>(() => ({
@@ -167,11 +193,14 @@ export const ExerciseStoreProvider: React.FC<ExerciseStoreProviderProps> = ({
     history,
     animatingCard,
     enabledExercises,
+    personalBests,
+    lastPBResult,
     // Actions
     logExercise,
     refresh: loadData,
     clearHistory,
     getExercise,
+    clearLastPBResult,
   }), [
     isLoading,
     todayStats,
@@ -181,10 +210,13 @@ export const ExerciseStoreProvider: React.FC<ExerciseStoreProviderProps> = ({
     history,
     animatingCard,
     enabledExercises,
+    personalBests,
+    lastPBResult,
     logExercise,
     loadData,
     clearHistory,
     getExercise,
+    clearLastPBResult,
   ])
 
   return (
@@ -237,5 +269,21 @@ export function useTotalStats() {
 export function useExerciseHistory() {
   const { history, enabledExercises } = useExerciseStore()
   return { history, exercises: enabledExercises }
+}
+
+/**
+ * Get personal bests for an exercise
+ */
+export function usePersonalBests(exerciseId: string) {
+  const { personalBests } = useExerciseStore()
+  return personalBests[exerciseId] || null
+}
+
+/**
+ * Get last PB result for celebration display
+ */
+export function useLastPBResult() {
+  const { lastPBResult, clearLastPBResult } = useExerciseStore()
+  return { lastPBResult, clearLastPBResult }
 }
 

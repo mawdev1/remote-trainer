@@ -75,19 +75,20 @@ export const exerciseStorage = {
    * Log a new exercise entry
    * @param exerciseId - The exercise type ID (e.g., 'pushups')
    * @param value - Reps count or duration in seconds
-   * @param sessionId - Optional session grouping ID
+   * @param options - Optional parameters (sessionId, weight)
    */
   async logExercise(
     exerciseId: string,
     value: number,
-    sessionId?: string
+    options?: { sessionId?: string; weight?: number }
   ): Promise<ExerciseEntry> {
     const entry: ExerciseEntry = {
       id: generateId(),
       exerciseId,
       value,
       timestamp: Date.now(),
-      sessionId,
+      sessionId: options?.sessionId,
+      weight: options?.weight,
     }
 
     const existing = await localStorage.get<ExerciseEntry[]>(STORAGE_KEYS.EXERCISES)
