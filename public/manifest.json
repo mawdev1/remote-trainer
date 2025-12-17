@@ -1,25 +1,25 @@
 {
   "manifest_version": 3,
-  "name": "Ext & Flex — Micro workouts for remote workers",
-  "short_name": "Ext & Flex",
+  "name": "RepsXtension — Micro workouts for remote workers",
+  "short_name": "RepsXtension",
   "description": "Quick desk exercises to keep you moving. Track reps, build streaks, stay healthy — all data stays local.",
   "version": "1.0.0",
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icons/ext-and-flex-16.png",
-      "48": "icons/ext-and-flex-48.png",
-      "128": "icons/ext-and-flex-128.png"
+      "16": "icons/resxtension-16.png",
+      "48": "icons/resxtension-48.png",
+      "128": "icons/resxtension-128.png"
     },
-    "default_title": "Ext & Flex"
+    "default_title": "RepsXtension"
   },
   "background": {
     "service_worker": "background.js"
   },
   "permissions": ["storage", "alarms", "idle", "notifications"],
   "icons": {
-    "16": "icons/ext-and-flex-16.png",
-    "48": "icons/ext-and-flex-48.png",
-    "128": "icons/ext-and-flex-128.png"
+    "16": "icons/resxtension-16.png",
+    "48": "icons/resxtension-48.png",
+    "128": "icons/resxtension-128.png"
   }
 }

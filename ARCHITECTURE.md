@@ -1,12 +1,12 @@
 # 🏗️ Architecture Guide
 
-> Technical documentation for the Ext & Flex codebase
+> Technical documentation for the RepsXtension codebase
 
 ---
 
 ## Overview
 
-Ext & Flex follows a **feature-based modular architecture** designed for scalability and maintainability. The codebase is organized around features (exercises, dashboard, history) rather than technical layers (components, hooks, utils).
+RepsXtension follows a **feature-based modular architecture** designed for scalability and maintainability. The codebase is organized around features (exercises, dashboard, history) rather than technical layers (components, hooks, utils).
 
 ---
 

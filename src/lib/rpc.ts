@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-// RPC method map - currently empty as Ext & Flex uses local storage only
+// RPC method map - currently empty as RepsXtension uses local storage only
 // This infrastructure is kept for potential future features
 type MethodMap = Record<string, never>
 

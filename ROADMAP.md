@@ -1,4 +1,4 @@
-# 🗺️ Ext & Flex — Feature Roadmap
+# 🗺️ RepsXtension — Feature Roadmap
 
 > A comprehensive list of features to build the ultimate home workout Chrome extension for remote workers.
 > All data stays local. No authentication required.

@@ -1,6 +1,6 @@
 <div align="center">
 
-# 💪 Ext & Flex
+# 💪 RepsXtension
 
 ### *Micro workouts for remote workers*
 
@@ -75,8 +75,8 @@ Minimal footprint. Fast popup that doesn't slow down your browsing experience.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/ext-and-flex.git
-   cd ext-and-flex
+   git clone https://github.com/yourusername/repsxtension.git
+   cd repsxtension
    ```
 
 2. **Install dependencies**
@@ -172,7 +172,7 @@ src/
 
 ## 🎨 Design Philosophy
 
-Ext & Flex is built with these principles in mind:
+RepsXtension is built with these principles in mind:
 
 - **🚀 Speed** — Popup loads instantly. No spinners, no waiting.
 - **🎯 Focus** — Do one thing well. Track exercises, nothing else.

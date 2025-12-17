@@ -388,7 +388,7 @@ export const SettingsView: React.FC = () => {
       <div className="settings-section">
         <h3 className="settings-section-title">ℹ️ About</h3>
         <div className="about-info">
-          <p><strong>Ext & Flex</strong> v1.0.0</p>
+          <p><strong>RepsXtension</strong> v1.0.0</p>
           <p>Micro workouts for remote workers</p>
           <p className="about-muted">All data stored locally in your browser</p>
         </div>

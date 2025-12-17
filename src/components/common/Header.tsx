@@ -19,7 +19,7 @@ export const Header: React.FC<HeaderProps> = ({ date = new Date() }) => {
   const { theme, setTheme } = useTheme()
   const { activeTimeFormatted, activeTimeMs } = useActiveTime()
   const reminderSettings = useSettingsSection('reminders')
-  const logoUrl = chrome.runtime.getURL('images/grindburngrow_logo.png')
+  const logoUrl = chrome.runtime.getURL('images/repsxtension-logo.png')
 
   const toggleTheme = () => {
     if (theme === 'dark') {
@@ -51,14 +51,18 @@ export const Header: React.FC<HeaderProps> = ({ date = new Date() }) => {
           <img
             className="app-logo"
             src={logoUrl}
-            alt="Grind Burn Grow logo"
+            alt="RepsXtension logo"
             width={64}
             height={64}
           />
         </div>
 
         <div className="app-brand-meta">
-          <h1 className="app-title">Grind Burn Grow</h1>
+          <h1 className="app-title">
+            <span className="title-reps">Reps</span>
+            <span className="title-x">X</span>
+            <span className="title-tension">tension</span>
+          </h1>
           <p className="date-display">{dateString}</p>
         </div>
       </div>

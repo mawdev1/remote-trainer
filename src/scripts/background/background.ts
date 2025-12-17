@@ -1,7 +1,7 @@
 /// <reference types="chrome"/>
 
 /**
- * Ext & Flex - Background Service Worker
+ * RepsXtension - Background Service Worker
  * Handles break reminders, active time tracking, and notifications
  */
 
@@ -69,22 +69,22 @@ const EXERCISE_SUGGESTIONS = [
 // INITIALIZATION
 // ═══════════════════════════════════════════════════════════════════════════════
 
-console.log('Ext & Flex background script initialized', new Date().toISOString())
+console.log('RepsXtension background script initialized', new Date().toISOString())
 
 // Listen for extension installation or update
 chrome.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
-    console.log('Ext & Flex extension installed')
+    console.log('RepsXtension extension installed')
     initializeReminders()
   } else if (details.reason === 'update') {
-    console.log('Ext & Flex extension updated to version', chrome.runtime.getManifest().version)
+    console.log('RepsXtension extension updated to version', chrome.runtime.getManifest().version)
     initializeReminders()
   }
 })
 
 // Browser startup
 chrome.runtime.onStartup.addListener(() => {
-  console.log('Browser started, Ext & Flex ready')
+  console.log('Browser started, RepsXtension ready')
   initializeReminders()
 })
 
@@ -400,7 +400,7 @@ async function showBreakReminder(settings: typeof DEFAULT_REMINDER_SETTINGS): Pr
       NOTIFICATION_ID,
       {
         type: 'basic',
-        iconUrl: chrome.runtime.getURL('icons/ext-and-flex-128.png'),
+        iconUrl: chrome.runtime.getURL('icons/resxtension-128.png'),
         title: '🧘 Time for a Break!',
         message,
         buttons: [
@@ -436,8 +436,8 @@ async function showTestNotification(): Promise<{ createdId: string | null }> {
       id,
       {
         type: 'basic',
-        iconUrl: chrome.runtime.getURL('icons/ext-and-flex-128.png'),
-        title: 'Ext & Flex — Test Notification',
+        iconUrl: chrome.runtime.getURL('icons/resxtension-128.png'),
+        title: 'RepsXtension — Test Notification',
         message: 'If you can read this, notifications are working 🎉',
         priority: 2,
         // Some platforms ignore requireInteraction; some suppress it. Keep test simple.

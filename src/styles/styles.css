@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Nunito:wght@700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -414,15 +414,67 @@ body.dark .app-logo-wrap {
 }
 
 .app-title {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 1.45rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-family: 'Nunito', 'DM Sans', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
   margin: 0;
-  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: flex;
+  align-items: baseline;
+}
+
+/* RepsXtension styled text parts */
+.app-title .title-reps {
+  background: linear-gradient(180deg, #ffffff 0%, #e8e8e8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+}
+
+.app-title .title-x {
+  font-size: 1.7rem;
+  font-weight: 900;
+  background: linear-gradient(180deg, #ffc033 0%, #ff9500 50%, #e67700 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
+  margin: 0 -1px;
+  position: relative;
+  top: 1px;
+}
+
+.app-title .title-tension {
+  background: linear-gradient(180deg, #ffffff 0%, #e8e8e8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* Light mode adjustments - use darker colors for contrast */
+:root .app-title .title-reps,
+:root .app-title .title-tension {
+  background: linear-gradient(180deg, #1a3a5c 0%, #0d2744 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.15));
+}
+
+/* Dark mode - white/light text */
+.dark .app-title .title-reps,
+.dark .app-title .title-tension {
+  background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.4));
 }
 
 .app-title .gradient-text {
