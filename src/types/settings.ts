@@ -10,11 +10,11 @@ export type WeightUnit = 'lbs' | 'kg'
 export type BackgroundStyle = 'minimal' | 'aurora' | 'gradient' | 'cosmos' | 'waves'
 
 export const BACKGROUND_OPTIONS: { id: BackgroundStyle; name: string; description: string }[] = [
-  { id: 'minimal', name: 'Minimal', description: 'Clean, solid background' },
-  { id: 'aurora', name: 'Aurora', description: 'Floating dots with soft glow' },
-  { id: 'gradient', name: 'Gradient', description: 'Static layered gradients' },
+  { id: 'minimal', name: 'Minimal', description: 'Clean background with subtle grid' },
+  { id: 'aurora', name: 'Aurora', description: 'Green & Purple Northern Lights' },
+  { id: 'gradient', name: 'Sunset', description: 'Warm Sunset & Dusk colors' },
   { id: 'cosmos', name: 'Cosmos', description: 'Starfield with twinkling dots' },
-  { id: 'waves', name: 'Waves', description: 'Gentle flowing motion' },
+  { id: 'waves', name: 'Ocean', description: 'Deep Blue Oceanic Motion' },
 ]
 
 /** Available reminder interval options in minutes */
